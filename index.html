@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Calculadora de Funil</title>
+
+  <style>
+    :root{
+      --bg:#0b1624;
+      --panel:#102235;
+      --panel2:#0f2a3f;
+      --text:#eaf2ff;
+      --muted:#9fb3c8;
+      --accent:#2f6fed;
+      --track:#203a55;
+      --chip:#0e1f31;
+      --shadow: 0 10px 24px rgba(0,0,0,.25);
+      --radius:14px;
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:linear-gradient(180deg,#07111d 0%, #07101a 100%);
+      color:var(--text);
+    }
+
+    .wrap{
+      min-height:100vh;
+      display:flex;
+      gap:24px;
+      padding:22px;
+      align-items:stretch;
+      justify-content:center;
+    }
+
+    .left, .right{
+      border-radius:18px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      width:min(560px, 100%);
+    }
+
+    /* ESQUERDA (parece app branco do seu print) */
+    .left{
+      background:#ffffff;
+      border:1px solid rgba(0,0,0,0.06);
+    }
+    .leftInner{
+      padding:18px 18px 10px 18px;
+      color:#0d1b2a;
+    }
+
+    .tabs{
+      display:flex;
+      border-radius:12px;
+      overflow:hidden;
+      background:#e8edf3;
+      width:280px;
+      margin-bottom:18px;
+    }
+    .tab{
+      flex:1;
+      padding:10px 12px;
+      text-align:center;
+      font-weight:600;
+      cursor:pointer;
+      user-select:none;
+      color:#748399;
+    }
+    .tab.active{
+      background:#183a57;
+      color:#fff;
+    }
+
+    .field{ padding:14px 0; }
+
+    .row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:8px;
+    }
+
+    .label{
+      font-size:14px;
+      color:#0d1b2a;
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+
+    .hint{
+      width:16px;height:16px;border-radius:50%;
+      display:inline-grid;place-items:center;
+      font-size:11px;font-weight:800;
+      background:#0d1b2a;color:#fff;
+      opacity:.85;
+    }
+
+    .value{
+      font-variant-numeric: tabular-nums;
+      font-weight:700;
+      color:#0d1b2a;
+    }
+
+    /* Sliders */
+    input[type="range"]{
+      width:100%;
+      accent-color: #c8a66b; /* tom próximo ao seu print */
+    }
+
+    /* Inputs opcionais de capacidade */
+    .subgrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+      margin-top:10px;
+      padding-bottom:8px;
+    }
+
+    .mini{
+      background:#f2f5f9;
+      border:1px solid #e3e9f2;
+      border-radius:12px;
+      padding:10px 12px;
+    }
+    .mini label{
+      display:block;
+      font-size:12px;
+      color:#49607a;
+      margin-bottom:6px;
+      font-weight:700;
+    }
+    .mini input{
+      width:100%;
+      padding:10px 10px;
+      border-radius:10px;
+      border:1px solid #d7e0ec;
+      outline:none;
+      font-size:14px;
+    }
+
+    /* DIREITA (painel escuro do print) */
+    .right{
+      background:linear-gradient(180deg, #0b1f33 0%, #071628 100%);
+      border:1px solid rgba(255,255,255,0.06);
+    }
+    .rightInner{
+      padding:22px;
+    }
+
+    .title{
+      font-size:22px;
+      letter-spacing:.5px;
+      font-weight:800;
+      margin-bottom:14px;
+    }
+
+    .card{
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.07);
+      border-radius:14px;
+      padding:14px 14px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin:12px 0;
+    }
+    .card .k{
+      font-weight:700;
+      color:#eaf2ff;
+      opacity:.95;
+    }
+    .card .v{
+      font-weight:900;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .plainRow{
+      display:flex;
+      justify-content:space-between;
+      padding:12px 4px;
+      color:#d6e4f7;
+      opacity:.95;
+      font-weight:650;
+    }
+
+    .footerNote{
+      margin-top:14px;
+      font-size:12px;
+      color:#aac0d8;
+      opacity:.9;
+      line-height:1.35;
+    }
+
+    @media (max-width: 980px){
+      .wrap{ flex-direction:column; align-items:stretch; }
+      .left, .right{ width:100%; }
+      .tabs{ width:100%; }
+      .subgrid{ grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <!-- ESQUERDA -->
+    <section class="left" aria-label="Controles">
+      <div class="leftInner">
+
+        <div class="tabs" role="tablist" aria-label="Modo">
+          <div class="tab active" id="tabPadrao" role="tab" aria-selected="true">Padrão</div>
+          <div class="tab" id="tabVideo" role="tab" aria-selected="false">Vídeo</div>
+        </div>
+
+        <div class="field">
+          <div class="row">
+            <div class="label">Investimento por mês (R$)</div>
+            <div class="value" id="invText">1000</div>
+          </div>
+          <input id="inv" type="range" min="0" max="50000" step="50" value="1000">
+        </div>
+
+        <div class="field">
+          <div class="row">
+            <div class="label">Custo por Lead (R$)</div>
+            <div class="value" id="cplText">6</div>
+          </div>
+          <input id="cpl" type="range" min="0.5" max="200" step="0.5" value="6">
+        </div>
+
+        <div class="field">
+          <div class="row">
+            <div class="label"><span class="hint">i</span> Taxa de agendamento (%)</div>
+            <div class="value" id="tagText">10</div>
+          </div>
+          <input id="tag" type="range" min="0" max="100" step="1" value="10">
+        </div>
+
+        <div class="field">
+          <div class="row">
+            <div class="label"><span class="hint">i</span> Taxa de comparecimento (%)</div>
+            <div class="value" id="tcompText">50</div>
+          </div>
+          <input id="tcomp" type="range" min="0" max="100" step="1" value="50">
+        </div>
+
+        <div class="field">
+          <div class="row">
+            <div class="label"><span class="hint">i</span> Taxa de conversão (%)</div>
+            <div class="value" id="tconvText">30</div>
+          </div>
+          <input id="tconv" type="range" min="0" max="100" step="1" value="30">
+        </div>
+
+        <div class="field">
+          <div class="row">
+            <div class="label">Ticket médio (R$)</div>
+            <div class="value" id="ticketText">2000</div>
+          </div>
+          <input id="ticket" type="range" min="0" max="50000" step="50" value="2000">
+        </div>
+
+        <!-- Opicional: só calcula SDR/Closer se você preencher -->
+        <div class="subgrid" aria-label="Capacidade do time (opcional)">
+          <div class="mini">
+            <label for="capSdr">Agendamentos por SDR/mês (opcional)</label>
+            <input id="capSdr" type="number" min="0" step="1" placeholder="ex: 80">
+          </div>
+          <div class="mini">
+            <label for="capCloser">Reuniões por Closer/mês (opcional)</label>
+            <input id="capCloser" type="number" min="0" step="1" placeholder="ex: 60">
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- DIREITA -->
+    <section class="right" aria-label="Resultados">
+      <div class="rightInner">
+        <div class="title">RESULTADO MENSAL</div>
+
+        <div class="card">
+          <div class="k">Faturamento</div>
+          <div class="v" id="fat">R$ 0</div>
+        </div>
+
+        <div class="plainRow">
+          <div>Número de vendas</div>
+          <div id="vendas">0</div>
+        </div>
+
+        <div class="card">
+          <div class="k">Retorno de investimento</div>
+          <div class="v" id="roi">0</div>
+        </div>
+
+        <div class="plainRow">
+          <div>Número de SDRs</div>
+          <div id="sdrs">0</div>
+        </div>
+
+        <div class="card">
+          <div class="k">Número de Closers</div>
+          <div class="v" id="closers">0</div>
+        </div>
+
+        <div class="footerNote">
+          Fórmulas: Leads = Investimento/CPL · Agendamentos = Leads×TaxaAg · Comparecimentos = Agendamentos×TaxaComp ·
+          Vendas = Comparecimentos×TaxaConv · Faturamento = Vendas×Ticket · ROI = Faturamento/Investimento.
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    /**
+     * ESTE SCRIPT FAZ:
+     * 1) LER sliders a cada movimento (evento "input")
+     * 2) ATUALIZAR os textos ao lado das barrinhas
+     * 3) CALCULAR e atualizar o painel da direita
+     */
+
+    const $ = (id) => document.getElementById(id);
+
+    const el = {
+      // sliders
+      inv: $("inv"),
+      cpl: $("cpl"),
+      tag: $("tag"),
+      tcomp: $("tcomp"),
+      tconv: $("tconv"),
+      ticket: $("ticket"),
+
+      // textos dos sliders
+      invText: $("invText"),
+      cplText: $("cplText"),
+      tagText: $("tagText"),
+      tcompText: $("tcompText"),
+      tconvText: $("tconvText"),
+      ticketText: $("ticketText"),
+
+      // resultados
+      fat: $("fat"),
+      vendas: $("vendas"),
+      roi: $("roi"),
+      sdrs: $("sdrs"),
+      closers: $("closers"),
+
+      // inputs opcionais (capacidade)
+      capSdr: $("capSdr"),
+      capCloser: $("capCloser"),
+
+      // tabs
+      tabPadrao: $("tabPadrao"),
+      tabVideo: $("tabVideo")
+    };
+
+    // formatação R$ (sem centavos)
+    function fmtBRL(n){
+      return new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+        maximumFractionDigits: 0
+      }).format(n);
+    }
+
+    // formatação de número geral
+    function fmtNum(n, digits=0){
+      return new Intl.NumberFormat("pt-BR", {
+        maximumFractionDigits: digits
+      }).format(n);
+    }
+
+    // lê valores atuais das barrinhas e inputs
+    function readValues(){
+      return {
+        investimento: Number(el.inv.value),
+        cpl: Number(el.cpl.value),
+        taxaAg: Number(el.tag.value) / 100,
+        taxaComp: Number(el.tcomp.value) / 100,
+        taxaConv: Number(el.tconv.value) / 100,
+        ticket: Number(el.ticket.value),
+
+        capSdr: Number(el.capSdr.value || 0),
+        capCloser: Number(el.capCloser.value || 0),
+      };
+    }
+
+    // atualiza os números ao lado das barrinhas
+    function updateLabels(v){
+      el.invText.textContent = fmtNum(v.investimento, 0);
+      el.cplText.textContent = fmtNum(v.cpl, 1);
+      el.tagText.textContent = fmtNum(v.taxaAg * 100, 0);
+      el.tcompText.textContent = fmtNum(v.taxaComp * 100, 0);
+      el.tconvText.textContent = fmtNum(v.taxaConv * 100, 0);
+      el.ticketText.textContent = fmtNum(v.ticket, 0);
+    }
+
+    // cálculo principal (recalcula tudo sempre que mexe em qualquer slider)
+    function calc(){
+      const v = readValues();
+      updateLabels(v);
+
+      // 1) Leads
+      const leads = (v.cpl > 0) ? (v.investimento / v.cpl) : 0;
+
+      // 2) Agendamentos
+      const agendamentos = leads * v.taxaAg;
+
+      // 3) Comparecimentos
+      const comparecimentos = agendamentos * v.taxaComp;
+
+      // 4) Vendas
+      const vendas = comparecimentos * v.taxaConv;
+
+      // 5) Faturamento
+      const faturamento = vendas * v.ticket;
+
+      // 6) ROI (Faturamento / Investimento)
+      const roi = (v.investimento > 0) ? (faturamento / v.investimento) : 0;
+
+      // SDRs / Closers (só se você preencher capacidade)
+      const sdrs = (v.capSdr > 0) ? Math.ceil(agendamentos / v.capSdr) : 0;
+      const closers = (v.capCloser > 0) ? Math.ceil(comparecimentos / v.capCloser) : 0;
+
+      // atualiza UI da direita
+      el.fat.textContent = fmtBRL(faturamento);
+      el.vendas.textContent = fmtNum(vendas, 2);
+      el.roi.textContent = fmtNum(roi, 2);
+      el.sdrs.textContent = fmtNum(sdrs, 0);
+      el.closers.textContent = fmtNum(closers, 0);
+    }
+
+    // presets nos tabs (você pode trocar depois, mas não precisa)
+    function setMode(mode){
+      const isPadrao = mode === "padrao";
+
+      el.tabPadrao.classList.toggle("active", isPadrao);
+      el.tabVideo.classList.toggle("active", !isPadrao);
+
+      el.tabPadrao.setAttribute("aria-selected", isPadrao ? "true" : "false");
+      el.tabVideo.setAttribute("aria-selected", !isPadrao ? "true" : "false");
+
+      if(isPadrao){
+        el.inv.value = 1000;
+        el.cpl.value = 6;
+        el.tag.value = 10;
+        el.tcomp.value = 50;
+        el.tconv.value = 30;
+        el.ticket.value = 2000;
+      }else{
+        el.inv.value = 1500;
+        el.cpl.value = 8;
+        el.tag.value = 8;
+        el.tcomp.value = 55;
+        el.tconv.value = 25;
+        el.ticket.value = 2000;
+      }
+
+      calc();
+    }
+
+    // 1) sempre que mexer num slider -> recalcula na hora
+    ["inv","cpl","tag","tcomp","tconv","ticket"].forEach(id=>{
+      $(id).addEventListener("input", calc);
+    });
+
+    // 2) inputs opcionais -> recalcula na hora também
+    ["capSdr","capCloser"].forEach(id=>{
+      $(id).addEventListener("input", calc);
+    });
+
+    // 3) tabs
+    el.tabPadrao.addEventListener("click", () => setMode("padrao"));
+    el.tabVideo.addEventListener("click", () => setMode("video"));
+
+    // init
+    calc();
+  </script>
+</body>
+</html>
