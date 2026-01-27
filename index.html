@@ -3,20 +3,22 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Calculadora de Funil</title>
+  <title>Calculadora de Funil — Elite</title>
 
   <style>
+    /* ====== CORES (extraídas da sua logo) ====== */
     :root{
-      --bg:#0b1624;
-      --panel:#102235;
-      --panel2:#0f2a3f;
-      --text:#eaf2ff;
-      --muted:#9fb3c8;
-      --accent:#2f6fed;
-      --track:#203a55;
-      --chip:#0e1f31;
-      --shadow: 0 10px 24px rgba(0,0,0,.25);
-      --radius:14px;
+      --brand-primary: #404048; /* Elite */
+      --brand-secondary: #B0A8A8; /* Marketing (assinatura) */
+      --brand-ivory: #F0F0E8; /* fundo da logo */
+      --brand-white: #F0F0F0;
+
+      /* UI */
+      --dark-bg-1: #121319;
+      --dark-bg-2: #0A0B10;
+
+      --shadow: 0 12px 28px rgba(0,0,0,.28);
+      --radius: 18px;
     }
 
     *{ box-sizing:border-box; }
@@ -24,190 +26,235 @@
     body{
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background:linear-gradient(180deg,#07111d 0%, #07101a 100%);
-      color:var(--text);
+      background: linear-gradient(180deg, var(--dark-bg-1) 0%, var(--dark-bg-2) 100%);
+      color: #fff;
     }
 
+    /* Topbar com logo no canto superior direito */
+    .topbar{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 18px 0 18px;
+      display:flex;
+      justify-content:flex-end;
+      align-items:center;
+    }
+
+    .brandLogo{
+      height: 44px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 16px rgba(0,0,0,.25));
+    }
+
+    /* Layout */
     .wrap{
-      min-height:100vh;
+      max-width: 1200px;
+      margin: 0 auto;
+      min-height: calc(100vh - 64px);
       display:flex;
       gap:24px;
-      padding:22px;
+      padding: 14px 18px 22px 18px;
       align-items:stretch;
       justify-content:center;
     }
 
     .left, .right{
-      border-radius:18px;
-      box-shadow:var(--shadow);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
       overflow:hidden;
-      width:min(560px, 100%);
+      width: min(560px, 100%);
     }
 
-    /* ESQUERDA (parece app branco do seu print) */
+    /* ====== ESQUERDA (claro) ====== */
     .left{
-      background:#ffffff;
-      border:1px solid rgba(0,0,0,0.06);
+      background: linear-gradient(180deg, var(--brand-ivory) 0%, #FFFFFF 100%);
+      border: 1px solid rgba(0,0,0,0.06);
+      color: var(--brand-primary);
     }
+
     .leftInner{
-      padding:18px 18px 10px 18px;
-      color:#0d1b2a;
+      padding: 18px 18px 14px 18px;
     }
 
     .tabs{
       display:flex;
-      border-radius:12px;
+      border-radius: 12px;
       overflow:hidden;
-      background:#e8edf3;
-      width:280px;
-      margin-bottom:18px;
-    }
-    .tab{
-      flex:1;
-      padding:10px 12px;
-      text-align:center;
-      font-weight:600;
-      cursor:pointer;
-      user-select:none;
-      color:#748399;
-    }
-    .tab.active{
-      background:#183a57;
-      color:#fff;
+      background: #E7E4DD;
+      width: 320px;
+      margin-bottom: 18px;
+      border: 1px solid rgba(0,0,0,.06);
     }
 
-    .field{ padding:14px 0; }
+    .tab{
+      flex:1;
+      padding: 10px 12px;
+      text-align:center;
+      font-weight: 800;
+      cursor:pointer;
+      user-select:none;
+      color: rgba(64,64,72,.70);
+      letter-spacing:.2px;
+    }
+
+    .tab.active{
+      background: var(--brand-primary);
+      color: #fff;
+    }
+
+    .field{ padding: 14px 0; }
 
     .row{
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:12px;
-      margin-bottom:8px;
+      margin-bottom: 8px;
     }
 
     .label{
-      font-size:14px;
-      color:#0d1b2a;
+      font-size: 14px;
       display:flex;
       gap:8px;
       align-items:center;
+      color: var(--brand-primary);
     }
 
     .hint{
-      width:16px;height:16px;border-radius:50%;
-      display:inline-grid;place-items:center;
-      font-size:11px;font-weight:800;
-      background:#0d1b2a;color:#fff;
-      opacity:.85;
+      width:16px; height:16px;
+      border-radius:50%;
+      display:inline-grid;
+      place-items:center;
+      font-size: 11px;
+      font-weight: 900;
+      background: var(--brand-primary);
+      color: #fff;
+      opacity: .95;
     }
 
     .value{
       font-variant-numeric: tabular-nums;
-      font-weight:700;
-      color:#0d1b2a;
+      font-weight: 900;
+      color: var(--brand-primary);
     }
 
-    /* Sliders */
+    /* Slider com cor da marca */
     input[type="range"]{
       width:100%;
-      accent-color: #c8a66b; /* tom próximo ao seu print */
+      accent-color: var(--brand-secondary);
     }
 
-    /* Inputs opcionais de capacidade */
+    /* Inputs opcionais */
     .subgrid{
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap:12px;
-      margin-top:10px;
-      padding-bottom:8px;
+      margin-top: 10px;
     }
 
     .mini{
-      background:#f2f5f9;
-      border:1px solid #e3e9f2;
-      border-radius:12px;
-      padding:10px 12px;
-    }
-    .mini label{
-      display:block;
-      font-size:12px;
-      color:#49607a;
-      margin-bottom:6px;
-      font-weight:700;
-    }
-    .mini input{
-      width:100%;
-      padding:10px 10px;
-      border-radius:10px;
-      border:1px solid #d7e0ec;
-      outline:none;
-      font-size:14px;
+      background: #EFECE6;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 12px;
+      padding: 10px 12px;
     }
 
-    /* DIREITA (painel escuro do print) */
-    .right{
-      background:linear-gradient(180deg, #0b1f33 0%, #071628 100%);
-      border:1px solid rgba(255,255,255,0.06);
+    .mini label{
+      display:block;
+      font-size: 12px;
+      color: rgba(64,64,72,.78);
+      margin-bottom: 6px;
+      font-weight: 900;
     }
+
+    .mini input{
+      width:100%;
+      padding: 10px 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(0,0,0,0.12);
+      outline: none;
+      font-size: 14px;
+      background: #fff;
+      color: var(--brand-primary);
+    }
+
+    .mini input:focus{
+      border-color: rgba(176,168,168,.95);
+      box-shadow: 0 0 0 3px rgba(176,168,168,.22);
+    }
+
+    /* ====== DIREITA (escuro) ====== */
+    .right{
+      background: linear-gradient(180deg, #14161D 0%, #0A0B10 100%);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
     .rightInner{
-      padding:22px;
+      padding: 22px;
     }
 
     .title{
-      font-size:22px;
-      letter-spacing:.5px;
-      font-weight:800;
-      margin-bottom:14px;
+      font-size: 22px;
+      font-weight: 950;
+      letter-spacing: .6px;
+      margin-bottom: 14px;
+      color: #fff;
     }
 
     .card{
-      background:rgba(255,255,255,0.06);
-      border:1px solid rgba(255,255,255,0.07);
-      border-radius:14px;
-      padding:14px 14px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+      padding: 14px 14px;
       display:flex;
       justify-content:space-between;
       align-items:center;
-      margin:12px 0;
+      margin: 12px 0;
     }
+
     .card .k{
-      font-weight:700;
-      color:#eaf2ff;
-      opacity:.95;
+      font-weight: 850;
+      color: rgba(255,255,255,.92);
     }
+
     .card .v{
-      font-weight:900;
+      font-weight: 950;
       font-variant-numeric: tabular-nums;
+      color: var(--brand-secondary);
     }
 
     .plainRow{
       display:flex;
       justify-content:space-between;
-      padding:12px 4px;
-      color:#d6e4f7;
-      opacity:.95;
-      font-weight:650;
+      padding: 12px 4px;
+      color: rgba(255,255,255,.88);
+      font-weight: 800;
     }
 
     .footerNote{
-      margin-top:14px;
-      font-size:12px;
-      color:#aac0d8;
-      opacity:.9;
-      line-height:1.35;
+      margin-top: 14px;
+      font-size: 12px;
+      color: rgba(255,255,255,.65);
+      line-height: 1.35;
     }
 
     @media (max-width: 980px){
-      .wrap{ flex-direction:column; align-items:stretch; }
-      .left, .right{ width:100%; }
-      .tabs{ width:100%; }
-      .subgrid{ grid-template-columns:1fr; }
+      .wrap{ flex-direction: column; }
+      .tabs{ width: 100%; }
+      .subgrid{ grid-template-columns: 1fr; }
+      .brandLogo{ height: 40px; }
     }
   </style>
 </head>
 
 <body>
+
+  <!-- Logo PNG (transparente) no canto superior direito -->
+  <div class="topbar">
+    <img class="brandLogo" src="logo.png" alt="Elite Marketing" />
+  </div>
+
   <div class="wrap">
 
     <!-- ESQUERDA -->
@@ -267,7 +314,6 @@
           <input id="ticket" type="range" min="0" max="50000" step="50" value="2000">
         </div>
 
-        <!-- Opicional: só calcula SDR/Closer se você preencher -->
         <div class="subgrid" aria-label="Capacidade do time (opcional)">
           <div class="mini">
             <label for="capSdr">Agendamentos por SDR/mês (opcional)</label>
@@ -322,117 +368,60 @@
   </div>
 
   <script>
-    /**
-     * ESTE SCRIPT FAZ:
-     * 1) LER sliders a cada movimento (evento "input")
-     * 2) ATUALIZAR os textos ao lado das barrinhas
-     * 3) CALCULAR e atualizar o painel da direita
-     */
-
     const $ = (id) => document.getElementById(id);
 
     const el = {
-      // sliders
-      inv: $("inv"),
-      cpl: $("cpl"),
-      tag: $("tag"),
-      tcomp: $("tcomp"),
-      tconv: $("tconv"),
-      ticket: $("ticket"),
-
-      // textos dos sliders
-      invText: $("invText"),
-      cplText: $("cplText"),
-      tagText: $("tagText"),
-      tcompText: $("tcompText"),
-      tconvText: $("tconvText"),
-      ticketText: $("ticketText"),
-
-      // resultados
-      fat: $("fat"),
-      vendas: $("vendas"),
-      roi: $("roi"),
-      sdrs: $("sdrs"),
-      closers: $("closers"),
-
-      // inputs opcionais (capacidade)
-      capSdr: $("capSdr"),
-      capCloser: $("capCloser"),
-
-      // tabs
-      tabPadrao: $("tabPadrao"),
-      tabVideo: $("tabVideo")
+      inv: $("inv"), cpl: $("cpl"), tag: $("tag"), tcomp: $("tcomp"), tconv: $("tconv"), ticket: $("ticket"),
+      invText: $("invText"), cplText: $("cplText"), tagText: $("tagText"), tcompText: $("tcompText"), tconvText: $("tconvText"), ticketText: $("ticketText"),
+      fat: $("fat"), vendas: $("vendas"), roi: $("roi"), sdrs: $("sdrs"), closers: $("closers"),
+      capSdr: $("capSdr"), capCloser: $("capCloser"),
+      tabPadrao: $("tabPadrao"), tabVideo: $("tabVideo")
     };
 
-    // formatação R$ (sem centavos)
     function fmtBRL(n){
-      return new Intl.NumberFormat("pt-BR", {
-        style: "currency",
-        currency: "BRL",
-        maximumFractionDigits: 0
-      }).format(n);
+      return new Intl.NumberFormat("pt-BR", { style:"currency", currency:"BRL", maximumFractionDigits: 0 }).format(n);
     }
-
-    // formatação de número geral
     function fmtNum(n, digits=0){
-      return new Intl.NumberFormat("pt-BR", {
-        maximumFractionDigits: digits
-      }).format(n);
+      return new Intl.NumberFormat("pt-BR", { maximumFractionDigits: digits }).format(n);
     }
 
-    // lê valores atuais das barrinhas e inputs
     function readValues(){
       return {
         investimento: Number(el.inv.value),
         cpl: Number(el.cpl.value),
-        taxaAg: Number(el.tag.value) / 100,
-        taxaComp: Number(el.tcomp.value) / 100,
-        taxaConv: Number(el.tconv.value) / 100,
+        taxaAg: Number(el.tag.value)/100,
+        taxaComp: Number(el.tcomp.value)/100,
+        taxaConv: Number(el.tconv.value)/100,
         ticket: Number(el.ticket.value),
-
         capSdr: Number(el.capSdr.value || 0),
         capCloser: Number(el.capCloser.value || 0),
       };
     }
 
-    // atualiza os números ao lado das barrinhas
     function updateLabels(v){
       el.invText.textContent = fmtNum(v.investimento, 0);
       el.cplText.textContent = fmtNum(v.cpl, 1);
-      el.tagText.textContent = fmtNum(v.taxaAg * 100, 0);
-      el.tcompText.textContent = fmtNum(v.taxaComp * 100, 0);
-      el.tconvText.textContent = fmtNum(v.taxaConv * 100, 0);
+      el.tagText.textContent = fmtNum(v.taxaAg*100, 0);
+      el.tcompText.textContent = fmtNum(v.taxaComp*100, 0);
+      el.tconvText.textContent = fmtNum(v.taxaConv*100, 0);
       el.ticketText.textContent = fmtNum(v.ticket, 0);
     }
 
-    // cálculo principal (recalcula tudo sempre que mexe em qualquer slider)
     function calc(){
       const v = readValues();
       updateLabels(v);
 
-      // 1) Leads
       const leads = (v.cpl > 0) ? (v.investimento / v.cpl) : 0;
-
-      // 2) Agendamentos
       const agendamentos = leads * v.taxaAg;
-
-      // 3) Comparecimentos
       const comparecimentos = agendamentos * v.taxaComp;
-
-      // 4) Vendas
       const vendas = comparecimentos * v.taxaConv;
 
-      // 5) Faturamento
       const faturamento = vendas * v.ticket;
-
-      // 6) ROI (Faturamento / Investimento)
       const roi = (v.investimento > 0) ? (faturamento / v.investimento) : 0;
 
-      // SDRs / Closers (só se você preencher capacidade)
       const sdrs = (v.capSdr > 0) ? Math.ceil(agendamentos / v.capSdr) : 0;
       const closers = (v.capCloser > 0) ? Math.ceil(comparecimentos / v.capCloser) : 0;
 
-      // atualiza UI da direita
       el.fat.textContent = fmtBRL(faturamento);
       el.vendas.textContent = fmtNum(vendas, 2);
       el.roi.textContent = fmtNum(roi, 2);
@@ -440,13 +429,10 @@
       el.closers.textContent = fmtNum(closers, 0);
     }
 
-    // presets nos tabs (você pode trocar depois, mas não precisa)
     function setMode(mode){
       const isPadrao = mode === "padrao";
-
       el.tabPadrao.classList.toggle("active", isPadrao);
       el.tabVideo.classList.toggle("active", !isPadrao);
-
       el.tabPadrao.setAttribute("aria-selected", isPadrao ? "true" : "false");
       el.tabVideo.setAttribute("aria-selected", !isPadrao ? "true" : "false");
 
@@ -465,25 +451,15 @@
         el.tconv.value = 25;
         el.ticket.value = 2000;
       }
-
       calc();
     }
 
-    // 1) sempre que mexer num slider -> recalcula na hora
-    ["inv","cpl","tag","tcomp","tconv","ticket"].forEach(id=>{
-      $(id).addEventListener("input", calc);
-    });
+    ["inv","cpl","tag","tcomp","tconv","ticket"].forEach(id => $(id).addEventListener("input", calc));
+    ["capSdr","capCloser"].forEach(id => $(id).addEventListener("input", calc));
 
-    // 2) inputs opcionais -> recalcula na hora também
-    ["capSdr","capCloser"].forEach(id=>{
-      $(id).addEventListener("input", calc);
-    });
+    el.tabPadrao.addEventListener("click", ()=>setMode("padrao"));
+    el.tabVideo.addEventListener("click", ()=>setMode("video"));
 
-    // 3) tabs
-    el.tabPadrao.addEventListener("click", () => setMode("padrao"));
-    el.tabVideo.addEventListener("click", () => setMode("video"));
-
-    // init
     calc();
   </script>
 </body>
