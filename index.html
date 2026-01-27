@@ -6,19 +6,16 @@
   <title>Calculadora de Funil — Elite</title>
 
   <style>
-    /* ====== CORES (extraídas da sua logo) ====== */
     :root{
-      --brand-primary: #404048; /* Elite */
-      --brand-secondary: #B0A8A8; /* Marketing (assinatura) */
-      --brand-ivory: #F0F0E8; /* fundo da logo */
-      --brand-white: #F0F0F0;
+      /* Cores extraídas da sua logo */
+      --brand-primary: #404048;   /* cinza escuro do "Elite" */
+      --brand-secondary: #B0A8A8; /* cinza claro do "Marketing" */
+      --brand-ivory: #F0F0E8;     /* fundo claro da logo */
+      --white: #ffffff;
 
-      /* UI */
-      --dark-bg-1: #121319;
-      --dark-bg-2: #0A0B10;
-
-      --shadow: 0 12px 28px rgba(0,0,0,.28);
+      --shadow: 0 12px 28px rgba(0,0,0,.10);
       --radius: 18px;
+      --border: rgba(0,0,0,.08);
     }
 
     *{ box-sizing:border-box; }
@@ -26,83 +23,106 @@
     body{
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: linear-gradient(180deg, var(--dark-bg-1) 0%, var(--dark-bg-2) 100%);
-      color: #fff;
+      background: #fff; /* FUNDO BRANCO */
+      color: var(--brand-primary);
     }
 
-    /* Topbar com logo no canto superior direito */
+    /* Topo */
     .topbar{
+      width: 100%;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbarInner{
       max-width: 1200px;
       margin: 0 auto;
-      padding: 14px 18px 0 18px;
+      padding: 16px 18px;
       display:flex;
-      justify-content:flex-end;
       align-items:center;
+      justify-content:flex-start; /* LOGO À ESQUERDA */
+      gap: 14px;
     }
 
     .brandLogo{
-      height: 44px;
+      height: 70px;  /* LOGO MAIOR */
       width: auto;
       object-fit: contain;
-      filter: drop-shadow(0 8px 16px rgba(0,0,0,.25));
+      display:block;
     }
 
-    /* Layout */
+    .brandTitle{
+      display:flex;
+      flex-direction:column;
+      line-height:1.1;
+    }
+
+    .brandTitle .t1{
+      font-weight: 950;
+      letter-spacing: .3px;
+      font-size: 16px;
+      color: var(--brand-primary);
+    }
+
+    .brandTitle .t2{
+      font-weight: 800;
+      font-size: 12px;
+      color: rgba(64,64,72,.70);
+      margin-top: 4px;
+    }
+
+    /* Layout principal */
     .wrap{
       max-width: 1200px;
       margin: 0 auto;
-      min-height: calc(100vh - 64px);
+      padding: 18px;
       display:flex;
-      gap:24px;
-      padding: 14px 18px 22px 18px;
+      gap:18px;
       align-items:stretch;
       justify-content:center;
     }
 
-    .left, .right{
+    .panel{
+      background: #fff;
+      border: 1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       overflow:hidden;
-      width: min(560px, 100%);
+      width: min(580px, 100%);
     }
 
-    /* ====== ESQUERDA (claro) ====== */
-    .left{
-      background: linear-gradient(180deg, var(--brand-ivory) 0%, #FFFFFF 100%);
-      border: 1px solid rgba(0,0,0,0.06);
-      color: var(--brand-primary);
+    .panelInner{
+      padding: 18px 18px 16px 18px;
     }
 
-    .leftInner{
-      padding: 18px 18px 14px 18px;
-    }
-
+    /* Tabs */
     .tabs{
       display:flex;
       border-radius: 12px;
       overflow:hidden;
-      background: #E7E4DD;
+      background: #F5F5F5;
+      border: 1px solid var(--border);
       width: 320px;
-      margin-bottom: 18px;
-      border: 1px solid rgba(0,0,0,.06);
+      max-width: 100%;
+      margin-bottom: 16px;
     }
 
     .tab{
       flex:1;
       padding: 10px 12px;
       text-align:center;
-      font-weight: 800;
+      font-weight: 900;
       cursor:pointer;
       user-select:none;
       color: rgba(64,64,72,.70);
-      letter-spacing:.2px;
     }
 
     .tab.active{
       background: var(--brand-primary);
-      color: #fff;
+      color:#fff;
     }
 
+    /* Campos */
     .field{ padding: 14px 0; }
 
     .row{
@@ -119,6 +139,7 @@
       gap:8px;
       align-items:center;
       color: var(--brand-primary);
+      font-weight: 800;
     }
 
     .hint{
@@ -127,25 +148,23 @@
       display:inline-grid;
       place-items:center;
       font-size: 11px;
-      font-weight: 900;
+      font-weight: 950;
       background: var(--brand-primary);
       color: #fff;
-      opacity: .95;
     }
 
     .value{
       font-variant-numeric: tabular-nums;
-      font-weight: 900;
+      font-weight: 950;
       color: var(--brand-primary);
     }
 
-    /* Slider com cor da marca */
     input[type="range"]{
       width:100%;
-      accent-color: var(--brand-secondary);
+      accent-color: var(--brand-primary);
     }
 
-    /* Inputs opcionais */
+    /* Caixas opcionais */
     .subgrid{
       display:grid;
       grid-template-columns: 1fr 1fr;
@@ -154,8 +173,8 @@
     }
 
     .mini{
-      background: #EFECE6;
-      border: 1px solid rgba(0,0,0,0.06);
+      background: #FAFAFA;
+      border: 1px solid var(--border);
       border-radius: 12px;
       padding: 10px 12px;
     }
@@ -163,7 +182,7 @@
     .mini label{
       display:block;
       font-size: 12px;
-      color: rgba(64,64,72,.78);
+      color: rgba(64,64,72,.75);
       margin-bottom: 6px;
       font-weight: 900;
     }
@@ -180,31 +199,22 @@
     }
 
     .mini input:focus{
-      border-color: rgba(176,168,168,.95);
-      box-shadow: 0 0 0 3px rgba(176,168,168,.22);
+      border-color: rgba(64,64,72,.55);
+      box-shadow: 0 0 0 3px rgba(64,64,72,.12);
     }
 
-    /* ====== DIREITA (escuro) ====== */
-    .right{
-      background: linear-gradient(180deg, #14161D 0%, #0A0B10 100%);
-      border: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .rightInner{
-      padding: 22px;
-    }
-
-    .title{
-      font-size: 22px;
+    /* Resultados */
+    .resultTitle{
+      font-size: 18px;
       font-weight: 950;
-      letter-spacing: .6px;
-      margin-bottom: 14px;
-      color: #fff;
+      letter-spacing: .4px;
+      margin-bottom: 12px;
+      color: var(--brand-primary);
     }
 
     .card{
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.07);
+      background: #fff;
+      border: 1px solid var(--border);
       border-radius: 14px;
       padding: 14px 14px;
       display:flex;
@@ -214,52 +224,62 @@
     }
 
     .card .k{
-      font-weight: 850;
-      color: rgba(255,255,255,.92);
+      font-weight: 900;
+      color: rgba(64,64,72,.90);
     }
 
     .card .v{
       font-weight: 950;
       font-variant-numeric: tabular-nums;
-      color: var(--brand-secondary);
+      color: var(--brand-primary);
     }
 
     .plainRow{
       display:flex;
       justify-content:space-between;
       padding: 12px 4px;
-      color: rgba(255,255,255,.88);
-      font-weight: 800;
+      color: rgba(64,64,72,.92);
+      font-weight: 900;
+      border-bottom: 1px dashed rgba(0,0,0,.10);
+    }
+
+    .plainRow:last-of-type{
+      border-bottom:none;
     }
 
     .footerNote{
       margin-top: 14px;
       font-size: 12px;
-      color: rgba(255,255,255,.65);
+      color: rgba(64,64,72,.70);
       line-height: 1.35;
     }
 
     @media (max-width: 980px){
       .wrap{ flex-direction: column; }
-      .tabs{ width: 100%; }
       .subgrid{ grid-template-columns: 1fr; }
-      .brandLogo{ height: 40px; }
+      .brandLogo{ height: 62px; }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- Logo PNG (transparente) no canto superior direito -->
-  <div class="topbar">
-    <img class="brandLogo" src="logo.png" alt="Elite Marketing" />
-  </div>
+  <!-- TOPO: Logo grande no lado esquerdo -->
+  <header class="topbar">
+    <div class="topbarInner">
+      <img class="brandLogo" src="logo.png" alt="Elite Marketing" />
+      <div class="brandTitle">
+        <div class="t1">Calculadora de Funil</div>
+        <div class="t2">Simulador de ROI, vendas e capacidade de time</div>
+      </div>
+    </div>
+  </header>
 
-  <div class="wrap">
+  <main class="wrap">
 
-    <!-- ESQUERDA -->
-    <section class="left" aria-label="Controles">
-      <div class="leftInner">
+    <!-- ESQUERDA: Controles -->
+    <section class="panel" aria-label="Controles">
+      <div class="panelInner">
 
         <div class="tabs" role="tablist" aria-label="Modo">
           <div class="tab active" id="tabPadrao" role="tab" aria-selected="true">Padrão</div>
@@ -328,10 +348,10 @@
       </div>
     </section>
 
-    <!-- DIREITA -->
-    <section class="right" aria-label="Resultados">
-      <div class="rightInner">
-        <div class="title">RESULTADO MENSAL</div>
+    <!-- DIREITA: Resultados -->
+    <section class="panel" aria-label="Resultados">
+      <div class="panelInner">
+        <div class="resultTitle">Resultado mensal</div>
 
         <div class="card">
           <div class="k">Faturamento</div>
@@ -344,7 +364,7 @@
         </div>
 
         <div class="card">
-          <div class="k">Retorno de investimento</div>
+          <div class="k">Retorno de investimento (ROI)</div>
           <div class="v" id="roi">0</div>
         </div>
 
@@ -365,7 +385,7 @@
       </div>
     </section>
 
-  </div>
+  </main>
 
   <script>
     const $ = (id) => document.getElementById(id);
@@ -462,5 +482,6 @@
 
     calc();
   </script>
+
 </body>
 </html>
