@@ -1,487 +1,538 @@
 <!doctype html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Calculadora de Funil — Elite</title>
-
+  <title>Calculadora de Conversão e Meta</title>
   <style>
     :root{
-      /* Cores extraídas da sua logo */
-      --brand-primary: #404048;   /* cinza escuro do "Elite" */
-      --brand-secondary: #B0A8A8; /* cinza claro do "Marketing" */
-      --brand-ivory: #F0F0E8;     /* fundo claro da logo */
-      --white: #ffffff;
+      --bg:#0b0d12;
+      --card:#121723;
+      --muted:#a9b1c3;
+      --text:#eef2ff;
+      --line:#242c3d;
 
-      --shadow: 0 12px 28px rgba(0,0,0,.10);
-      --radius: 18px;
-      --border: rgba(0,0,0,.08);
+      --red:#ff4d4d;     /* inputs */
+      --green:#36d399;   /* outputs */
+      --yellow:#ffd166;
     }
 
     *{ box-sizing:border-box; }
-
     body{
       margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: #fff; /* FUNDO BRANCO */
-      color: var(--brand-primary);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", "Noto Sans", "Liberation Sans", sans-serif;
+      background: radial-gradient(1200px 700px at 20% 0%, #121a2c 0%, var(--bg) 55%);
+      color:var(--text);
+      padding:24px;
     }
 
-    /* Topo */
-    .topbar{
-      width: 100%;
-      background: #fff;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .topbarInner{
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 16px 18px;
-      display:flex;
-      align-items:center;
-      justify-content:flex-start; /* LOGO À ESQUERDA */
-      gap: 14px;
-    }
-
-    .brandLogo{
-      height: 70px;  /* LOGO MAIOR */
-      width: auto;
-      object-fit: contain;
-      display:block;
-    }
-
-    .brandTitle{
-      display:flex;
-      flex-direction:column;
-      line-height:1.1;
-    }
-
-    .brandTitle .t1{
-      font-weight: 950;
-      letter-spacing: .3px;
-      font-size: 16px;
-      color: var(--brand-primary);
-    }
-
-    .brandTitle .t2{
-      font-weight: 800;
-      font-size: 12px;
-      color: rgba(64,64,72,.70);
-      margin-top: 4px;
-    }
-
-    /* Layout principal */
     .wrap{
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 18px;
+      max-width:980px;
+      margin:0 auto;
+      display:grid;
+      gap:16px;
+    }
+
+    header{
       display:flex;
-      gap:18px;
-      align-items:stretch;
-      justify-content:center;
-    }
-
-    .panel{
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      width: min(580px, 100%);
-    }
-
-    .panelInner{
-      padding: 18px 18px 16px 18px;
-    }
-
-    /* Tabs */
-    .tabs{
-      display:flex;
-      border-radius: 12px;
-      overflow:hidden;
-      background: #F5F5F5;
-      border: 1px solid var(--border);
-      width: 320px;
-      max-width: 100%;
-      margin-bottom: 16px;
-    }
-
-    .tab{
-      flex:1;
-      padding: 10px 12px;
-      text-align:center;
-      font-weight: 900;
-      cursor:pointer;
-      user-select:none;
-      color: rgba(64,64,72,.70);
-    }
-
-    .tab.active{
-      background: var(--brand-primary);
-      color:#fff;
-    }
-
-    /* Campos */
-    .field{ padding: 14px 0; }
-
-    .row{
-      display:flex;
-      align-items:center;
+      align-items:flex-start;
       justify-content:space-between;
-      gap:12px;
-      margin-bottom: 8px;
+      gap:16px;
+      padding:18px 18px 0 18px;
     }
 
-    .label{
-      font-size: 14px;
-      display:flex;
-      gap:8px;
-      align-items:center;
-      color: var(--brand-primary);
-      font-weight: 800;
+    h1{
+      margin:0;
+      font-size:20px;
+      letter-spacing:0.2px;
+    }
+    .sub{
+      margin-top:8px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.4;
+      max-width:720px;
     }
 
-    .hint{
-      width:16px; height:16px;
-      border-radius:50%;
-      display:inline-grid;
-      place-items:center;
-      font-size: 11px;
-      font-weight: 950;
-      background: var(--brand-primary);
-      color: #fff;
-    }
-
-    .value{
-      font-variant-numeric: tabular-nums;
-      font-weight: 950;
-      color: var(--brand-primary);
-    }
-
-    input[type="range"]{
-      width:100%;
-      accent-color: var(--brand-primary);
-    }
-
-    /* Caixas opcionais */
-    .subgrid{
+    .grid{
       display:grid;
       grid-template-columns: 1fr 1fr;
-      gap:12px;
-      margin-top: 10px;
+      gap:16px;
     }
 
-    .mini{
-      background: #FAFAFA;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 10px 12px;
-    }
-
-    .mini label{
-      display:block;
-      font-size: 12px;
-      color: rgba(64,64,72,.75);
-      margin-bottom: 6px;
-      font-weight: 900;
-    }
-
-    .mini input{
-      width:100%;
-      padding: 10px 10px;
-      border-radius: 10px;
-      border: 1px solid rgba(0,0,0,0.12);
-      outline: none;
-      font-size: 14px;
-      background: #fff;
-      color: var(--brand-primary);
-    }
-
-    .mini input:focus{
-      border-color: rgba(64,64,72,.55);
-      box-shadow: 0 0 0 3px rgba(64,64,72,.12);
-    }
-
-    /* Resultados */
-    .resultTitle{
-      font-size: 18px;
-      font-weight: 950;
-      letter-spacing: .4px;
-      margin-bottom: 12px;
-      color: var(--brand-primary);
+    @media (max-width: 900px){
+      .grid{ grid-template-columns: 1fr; }
+      header{ padding: 12px 12px 0 12px; }
+      body{ padding: 14px; }
     }
 
     .card{
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px 14px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      border:1px solid var(--line);
+      border-radius:16px;
+      overflow:hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+
+    .card h2{
+      margin:0;
+      padding:14px 16px;
+      font-size:14px;
+      letter-spacing:0.3px;
+      border-bottom:1px solid var(--line);
+      color:#dbe4ff;
       display:flex;
-      justify-content:space-between;
       align-items:center;
-      margin: 12px 0;
+      justify-content:space-between;
+      gap:12px;
     }
 
-    .card .k{
-      font-weight: 900;
-      color: rgba(64,64,72,.90);
+    .badge{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      color:var(--muted);
     }
 
-    .card .v{
-      font-weight: 950;
+    .content{
+      padding:16px;
+      display:grid;
+      gap:14px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap:10px;
+      align-items:center;
+      padding:12px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background: rgba(0,0,0,0.15);
+    }
+
+    .label{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+
+    .label .t{
+      font-size:13px;
+      color:#dbe4ff;
+    }
+    .label .d{
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.35;
+    }
+
+    input{
+      width:100%;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.10);
+      background: rgba(15,20,30,0.65);
+      color: var(--text);
+      outline:none;
+      font-size:14px;
+    }
+    input:focus{
+      border-color: rgba(255,255,255,0.28);
+      box-shadow: 0 0 0 4px rgba(255, 77, 77, 0.14);
+    }
+
+    .in-red{
+      border-color: rgba(255, 77, 77, 0.45);
+      box-shadow: inset 0 0 0 1px rgba(255, 77, 77, 0.25);
+    }
+    .in-red:focus{
+      box-shadow: 0 0 0 4px rgba(255, 77, 77, 0.18);
+    }
+
+    .out{
+      width:100%;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid rgba(54, 211, 153, 0.35);
+      background: rgba(54, 211, 153, 0.10);
+      color: var(--text);
+      font-size:14px;
       font-variant-numeric: tabular-nums;
-      color: var(--brand-primary);
-    }
-
-    .plainRow{
       display:flex;
       justify-content:space-between;
-      padding: 12px 4px;
-      color: rgba(64,64,72,.92);
-      font-weight: 900;
-      border-bottom: 1px dashed rgba(0,0,0,.10);
+      gap:10px;
+    }
+    .out b{
+      color: var(--green);
+      font-weight:700;
     }
 
-    .plainRow:last-of-type{
-      border-bottom:none;
+    .footer{
+      padding:12px 16px 16px 16px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.5;
+      border-top:1px solid var(--line);
     }
 
-    .footerNote{
-      margin-top: 14px;
-      font-size: 12px;
-      color: rgba(64,64,72,.70);
-      line-height: 1.35;
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      padding:0 16px 16px 16px;
+    }
+    button{
+      appearance:none;
+      border:none;
+      border-radius:12px;
+      padding:12px 14px;
+      cursor:pointer;
+      background: rgba(255,255,255,0.06);
+      border:1px solid var(--line);
+      color:var(--text);
+      font-size:13px;
+    }
+    button:hover{
+      background: rgba(255,255,255,0.09);
+    }
+    .primary{
+      background: rgba(255, 209, 102, 0.16);
+      border-color: rgba(255, 209, 102, 0.35);
+    }
+    .primary:hover{
+      background: rgba(255, 209, 102, 0.22);
     }
 
-    @media (max-width: 980px){
-      .wrap{ flex-direction: column; }
-      .subgrid{ grid-template-columns: 1fr; }
-      .brandLogo{ height: 62px; }
+    .mini{
+      font-size:12px;
+      padding:8px 10px;
+      border-radius:10px;
     }
   </style>
 </head>
 
 <body>
-
-  <!-- TOPO: Logo grande no lado esquerdo -->
-  <header class="topbar">
-    <div class="topbarInner">
-      <img class="brandLogo" src="logo.png" alt="Elite Marketing" />
-      <div class="brandTitle">
-        <div class="t1">Calculadora de Funil</div>
-        <div class="t2">Simulador de ROI, vendas e capacidade de time</div>
+  <div class="wrap card">
+    <header>
+      <div>
+        <h1>Calculadora de Ticket, Meta e Conversão</h1>
+        <div class="sub">
+          Vermelho = você preenche com o que o cliente falar. Verde = números calculados.
+          <br/>Objetivo: transformar “meta de vendas” em “quantas pessoas precisam chegar/conhecer” com base na conversão.
+        </div>
       </div>
+      <div class="badge">GitHub Pages Ready</div>
+    </header>
+
+    <div class="grid" style="padding:16px;">
+      <!-- CARD 1 -->
+      <section class="card">
+        <h2>
+          1) Números do cliente
+          <span class="badge">Entrada → Saída</span>
+        </h2>
+
+        <div class="content">
+          <div class="row">
+            <div class="label">
+              <div class="t">Ticket médio (R$)</div>
+              <div class="d">Quanto o cliente paga, em média, por venda.</div>
+            </div>
+            <input class="in-red" id="ticketMedio" inputmode="decimal" placeholder="Ex: 450" />
+          </div>
+
+          <div class="row">
+            <div class="label">
+              <div class="t">Vendas em média (hoje)</div>
+              <div class="d">Quantas vendas ele faz no período (ex: mês).</div>
+            </div>
+            <input class="in-red" id="vendasHoje" inputmode="numeric" placeholder="Ex: 10" />
+          </div>
+
+          <div class="row">
+            <div class="label">
+              <div class="t">Faturamento atual</div>
+              <div class="d">Ticket médio × Vendas atuais.</div>
+            </div>
+            <div class="out" aria-live="polite">
+              <span>Resultado</span>
+              <b id="faturamentoAtual">R$ 0,00</b>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="label">
+              <div class="t">Meta pessoal (vendas)</div>
+              <div class="d">Quantas vendas ele quer fazer no mesmo período.</div>
+            </div>
+            <input class="in-red" id="metaVendas" inputmode="numeric" placeholder="Ex: 25" />
+          </div>
+
+          <div class="row">
+            <div class="label">
+              <div class="t">Objetivo nosso (faturamento na meta)</div>
+              <div class="d">Ticket médio × Meta de vendas.</div>
+            </div>
+            <div class="out" aria-live="polite">
+              <span>Resultado</span>
+              <b id="faturamentoMeta">R$ 0,00</b>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="label">
+              <div class="t">Diferença (o “gap”)</div>
+              <div class="d">Quanto precisa crescer de faturamento pra chegar na meta.</div>
+            </div>
+            <div class="out" aria-live="polite">
+              <span>Resultado</span>
+              <b id="gapFaturamento">R$ 0,00</b>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="primary" id="btnExemplo">Preencher exemplo</button>
+          <button id="btnLimpar">Limpar</button>
+        </div>
+
+        <div class="footer">
+          Dica: considere “período” sempre igual (mês com mês, semana com semana). Assim o raciocínio não vira novela mexicana.
+        </div>
+      </section>
+
+      <!-- CARD 2 -->
+      <section class="card">
+        <h2>
+          2) Conversão → Quantas pessoas precisam chegar
+          <span class="badge">Funil</span>
+        </h2>
+
+        <div class="content">
+          <div class="row">
+            <div class="label">
+              <div class="t">De 20 pessoas, quantas fecham?</div>
+              <div class="d">Ex: 2/20 significa 10% de conversão (lead → venda).</div>
+            </div>
+            <input class="in-red" id="fechamEm20" inputmode="numeric" placeholder="Ex: 2" />
+          </div>
+
+          <div class="row">
+            <div class="label">
+              <div class="t">Taxa “Conhecem o perfil → viram lead” (opcional)</div>
+              <div class="d">
+                Se você não preencher, assumo 100% (Conhecem = Chegam).
+                Se preencher, use % (ex: 25 significa 25%).
+              </div>
+            </div>
+            <input class="in-red" id="taxaConhecemParaLead" inputmode="decimal" placeholder="Ex: 25" />
+          </div>
+
+          <div class="row">
+            <div class="label">
+              <div class="t">Conversão (lead → venda)</div>
+              <div class="d">Fecham ÷ 20.</div>
+            </div>
+            <div class="out" aria-live="polite">
+              <span>Resultado</span>
+              <b id="taxaConversao">0%</b>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="label">
+              <div class="t">Chegam (leads necessários)</div>
+              <div class="d">Meta de vendas ÷ conversão.</div>
+            </div>
+            <div class="out" aria-live="polite">
+              <span>Resultado</span>
+              <b id="leadsNecessarios">0</b>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="label">
+              <div class="t">Conhecem o perfil (topo do funil)</div>
+              <div class="d">Leads ÷ (taxa conhecer→lead). Se não tiver taxa, vira igual a “Chegam”.</div>
+            </div>
+            <div class="out" aria-live="polite">
+              <span>Resultado</span>
+              <b id="conhecemPerfil">0</b>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="label">
+              <div class="t">Compram (meta de vendas)</div>
+              <div class="d">É a sua meta de vendas (pra deixar claro no funil).</div>
+            </div>
+            <div class="out" aria-live="polite">
+              <span>Resultado</span>
+              <b id="compram">0</b>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="label">
+              <div class="t">Resumo rápido</div>
+              <div class="d">Um texto pronto pra você ler pro cliente (tipo “explica como gente”).</div>
+            </div>
+            <div class="out" style="flex-direction:column; align-items:flex-start;">
+              <div style="width:100%; display:flex; justify-content:space-between; gap:10px;">
+                <span>Resumo</span>
+                <button class="mini" id="btnCopiar">Copiar</button>
+              </div>
+              <b id="resumo" style="color:#dbe4ff; font-weight:600; margin-top:10px; line-height:1.45;">
+                Preencha os campos para gerar o resumo.
+              </b>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer">
+          Se a conversão melhorar (ex: de 2/20 para 3/20), o número de pessoas necessárias cai.
+          É aqui que entra a argumentação do tráfego pago + social media pra aumentar volume e eficiência.
+        </div>
+      </section>
     </div>
-  </header>
-
-  <main class="wrap">
-
-    <!-- ESQUERDA: Controles -->
-    <section class="panel" aria-label="Controles">
-      <div class="panelInner">
-
-        <div class="tabs" role="tablist" aria-label="Modo">
-          <div class="tab active" id="tabPadrao" role="tab" aria-selected="true">Padrão</div>
-          <div class="tab" id="tabVideo" role="tab" aria-selected="false">Vídeo</div>
-        </div>
-
-        <div class="field">
-          <div class="row">
-            <div class="label">Investimento por mês (R$)</div>
-            <div class="value" id="invText">1000</div>
-          </div>
-          <input id="inv" type="range" min="0" max="50000" step="50" value="1000">
-        </div>
-
-        <div class="field">
-          <div class="row">
-            <div class="label">Custo por Lead (R$)</div>
-            <div class="value" id="cplText">6</div>
-          </div>
-          <input id="cpl" type="range" min="0.5" max="200" step="0.5" value="6">
-        </div>
-
-        <div class="field">
-          <div class="row">
-            <div class="label"><span class="hint">i</span> Taxa de agendamento (%)</div>
-            <div class="value" id="tagText">10</div>
-          </div>
-          <input id="tag" type="range" min="0" max="100" step="1" value="10">
-        </div>
-
-        <div class="field">
-          <div class="row">
-            <div class="label"><span class="hint">i</span> Taxa de comparecimento (%)</div>
-            <div class="value" id="tcompText">50</div>
-          </div>
-          <input id="tcomp" type="range" min="0" max="100" step="1" value="50">
-        </div>
-
-        <div class="field">
-          <div class="row">
-            <div class="label"><span class="hint">i</span> Taxa de conversão (%)</div>
-            <div class="value" id="tconvText">30</div>
-          </div>
-          <input id="tconv" type="range" min="0" max="100" step="1" value="30">
-        </div>
-
-        <div class="field">
-          <div class="row">
-            <div class="label">Ticket médio (R$)</div>
-            <div class="value" id="ticketText">2000</div>
-          </div>
-          <input id="ticket" type="range" min="0" max="50000" step="50" value="2000">
-        </div>
-
-        <div class="subgrid" aria-label="Capacidade do time (opcional)">
-          <div class="mini">
-            <label for="capSdr">Agendamentos por SDR/mês (opcional)</label>
-            <input id="capSdr" type="number" min="0" step="1" placeholder="ex: 80">
-          </div>
-          <div class="mini">
-            <label for="capCloser">Reuniões por Closer/mês (opcional)</label>
-            <input id="capCloser" type="number" min="0" step="1" placeholder="ex: 60">
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- DIREITA: Resultados -->
-    <section class="panel" aria-label="Resultados">
-      <div class="panelInner">
-        <div class="resultTitle">Resultado mensal</div>
-
-        <div class="card">
-          <div class="k">Faturamento</div>
-          <div class="v" id="fat">R$ 0</div>
-        </div>
-
-        <div class="plainRow">
-          <div>Número de vendas</div>
-          <div id="vendas">0</div>
-        </div>
-
-        <div class="card">
-          <div class="k">Retorno de investimento (ROI)</div>
-          <div class="v" id="roi">0</div>
-        </div>
-
-        <div class="plainRow">
-          <div>Número de SDRs</div>
-          <div id="sdrs">0</div>
-        </div>
-
-        <div class="card">
-          <div class="k">Número de Closers</div>
-          <div class="v" id="closers">0</div>
-        </div>
-
-        <div class="footerNote">
-          Fórmulas: Leads = Investimento/CPL · Agendamentos = Leads×TaxaAg · Comparecimentos = Agendamentos×TaxaComp ·
-          Vendas = Comparecimentos×TaxaConv · Faturamento = Vendas×Ticket · ROI = Faturamento/Investimento.
-        </div>
-      </div>
-    </section>
-
-  </main>
+  </div>
 
   <script>
-    const $ = (id) => document.getElementById(id);
+    function toNumber(v){
+      if (v === null || v === undefined) return 0;
+      const s = String(v).trim().replace(/\./g,'').replace(',', '.');
+      const n = Number(s);
+      return Number.isFinite(n) ? n : 0;
+    }
 
-    const el = {
-      inv: $("inv"), cpl: $("cpl"), tag: $("tag"), tcomp: $("tcomp"), tconv: $("tconv"), ticket: $("ticket"),
-      invText: $("invText"), cplText: $("cplText"), tagText: $("tagText"), tcompText: $("tcompText"), tconvText: $("tconvText"), ticketText: $("ticketText"),
-      fat: $("fat"), vendas: $("vendas"), roi: $("roi"), sdrs: $("sdrs"), closers: $("closers"),
-      capSdr: $("capSdr"), capCloser: $("capCloser"),
-      tabPadrao: $("tabPadrao"), tabVideo: $("tabVideo")
+    function moneyBRL(n){
+      return new Intl.NumberFormat('pt-BR', { style:'currency', currency:'BRL' }).format(n || 0);
+    }
+
+    function percent(n){
+      return (n * 100).toFixed(1).replace('.', ',') + '%';
+    }
+
+    function ceilSafe(n){
+      if (!Number.isFinite(n) || n <= 0) return 0;
+      return Math.ceil(n);
+    }
+
+    const els = {
+      ticketMedio: document.getElementById('ticketMedio'),
+      vendasHoje: document.getElementById('vendasHoje'),
+      metaVendas: document.getElementById('metaVendas'),
+      fechamEm20: document.getElementById('fechamEm20'),
+      taxaConhecemParaLead: document.getElementById('taxaConhecemParaLead'),
+
+      faturamentoAtual: document.getElementById('faturamentoAtual'),
+      faturamentoMeta: document.getElementById('faturamentoMeta'),
+      gapFaturamento: document.getElementById('gapFaturamento'),
+
+      taxaConversao: document.getElementById('taxaConversao'),
+      leadsNecessarios: document.getElementById('leadsNecessarios'),
+      conhecemPerfil: document.getElementById('conhecemPerfil'),
+      compram: document.getElementById('compram'),
+
+      resumo: document.getElementById('resumo'),
+      btnCopiar: document.getElementById('btnCopiar'),
+      btnExemplo: document.getElementById('btnExemplo'),
+      btnLimpar: document.getElementById('btnLimpar'),
     };
 
-    function fmtBRL(n){
-      return new Intl.NumberFormat("pt-BR", { style:"currency", currency:"BRL", maximumFractionDigits: 0 }).format(n);
-    }
-    function fmtNum(n, digits=0){
-      return new Intl.NumberFormat("pt-BR", { maximumFractionDigits: digits }).format(n);
-    }
+    function calcular(){
+      const ticket = toNumber(els.ticketMedio.value);
+      const vendasHoje = toNumber(els.vendasHoje.value);
+      const metaVendas = toNumber(els.metaVendas.value);
 
-    function readValues(){
-      return {
-        investimento: Number(el.inv.value),
-        cpl: Number(el.cpl.value),
-        taxaAg: Number(el.tag.value)/100,
-        taxaComp: Number(el.tcomp.value)/100,
-        taxaConv: Number(el.tconv.value)/100,
-        ticket: Number(el.ticket.value),
-        capSdr: Number(el.capSdr.value || 0),
-        capCloser: Number(el.capCloser.value || 0),
-      };
-    }
+      const fechamEm20 = toNumber(els.fechamEm20.value);
+      const taxaConv = fechamEm20 > 0 ? (fechamEm20 / 20) : 0;
 
-    function updateLabels(v){
-      el.invText.textContent = fmtNum(v.investimento, 0);
-      el.cplText.textContent = fmtNum(v.cpl, 1);
-      el.tagText.textContent = fmtNum(v.taxaAg*100, 0);
-      el.tcompText.textContent = fmtNum(v.taxaComp*100, 0);
-      el.tconvText.textContent = fmtNum(v.taxaConv*100, 0);
-      el.ticketText.textContent = fmtNum(v.ticket, 0);
-    }
+      // opcional: % conhecem->lead
+      const taxaConhecemPct = toNumber(els.taxaConhecemParaLead.value);
+      const taxaConhecem = taxaConhecemPct > 0 ? (taxaConhecemPct / 100) : 1; // default 100%
 
-    function calc(){
-      const v = readValues();
-      updateLabels(v);
+      const fatAtual = ticket * vendasHoje;
+      const fatMeta = ticket * metaVendas;
+      const gap = Math.max(0, fatMeta - fatAtual);
 
-      const leads = (v.cpl > 0) ? (v.investimento / v.cpl) : 0;
-      const agendamentos = leads * v.taxaAg;
-      const comparecimentos = agendamentos * v.taxaComp;
-      const vendas = comparecimentos * v.taxaConv;
+      // Leads necessários para bater meta
+      const leadsNec = taxaConv > 0 ? ceilSafe(metaVendas / taxaConv) : 0;
 
-      const faturamento = vendas * v.ticket;
-      const roi = (v.investimento > 0) ? (faturamento / v.investimento) : 0;
+      // Pessoas que "conhecem" para gerar esses leads (se taxaConhecem foi informada)
+      const conhecem = taxaConhecem > 0 ? ceilSafe(leadsNec / taxaConhecem) : 0;
 
-      const sdrs = (v.capSdr > 0) ? Math.ceil(agendamentos / v.capSdr) : 0;
-      const closers = (v.capCloser > 0) ? Math.ceil(comparecimentos / v.capCloser) : 0;
+      els.faturamentoAtual.textContent = moneyBRL(fatAtual);
+      els.faturamentoMeta.textContent = moneyBRL(fatMeta);
+      els.gapFaturamento.textContent = moneyBRL(gap);
 
-      el.fat.textContent = fmtBRL(faturamento);
-      el.vendas.textContent = fmtNum(vendas, 2);
-      el.roi.textContent = fmtNum(roi, 2);
-      el.sdrs.textContent = fmtNum(sdrs, 0);
-      el.closers.textContent = fmtNum(closers, 0);
-    }
+      els.taxaConversao.textContent = taxaConv > 0 ? percent(taxaConv) : '0%';
+      els.leadsNecessarios.textContent = String(leadsNec);
+      els.conhecemPerfil.textContent = String(conhecem);
+      els.compram.textContent = String(metaVendas);
 
-    function setMode(mode){
-      const isPadrao = mode === "padrao";
-      el.tabPadrao.classList.toggle("active", isPadrao);
-      el.tabVideo.classList.toggle("active", !isPadrao);
-      el.tabPadrao.setAttribute("aria-selected", isPadrao ? "true" : "false");
-      el.tabVideo.setAttribute("aria-selected", !isPadrao ? "true" : "false");
-
-      if(isPadrao){
-        el.inv.value = 1000;
-        el.cpl.value = 6;
-        el.tag.value = 10;
-        el.tcomp.value = 50;
-        el.tconv.value = 30;
-        el.ticket.value = 2000;
-      }else{
-        el.inv.value = 1500;
-        el.cpl.value = 8;
-        el.tag.value = 8;
-        el.tcomp.value = 55;
-        el.tconv.value = 25;
-        el.ticket.value = 2000;
+      // resumo
+      if (ticket <= 0 || metaVendas <= 0 || fechamEm20 <= 0){
+        els.resumo.textContent = 'Preencha Ticket médio, Meta de vendas e “de 20, quantas fecham?” para gerar o resumo.';
+        return;
       }
-      calc();
+
+      const resumo = [
+        `Hoje você fatura ${moneyBRL(fatAtual)} (ticket ${moneyBRL(ticket)} × ${vendasHoje} vendas).`,
+        `Sua meta é ${metaVendas} vendas, que dá ${moneyBRL(fatMeta)}. O gap é ${moneyBRL(gap)}.`,
+        `Com conversão de ${fechamEm20}/20 (${percent(taxaConv)}), você precisa de aproximadamente ${leadsNec} leads pra bater a meta.`,
+        (taxaConhecemPct > 0)
+          ? `Se a cada 100 pessoas que conhecem seu perfil, ${taxaConhecemPct} viram lead, então precisamos de cerca de ${conhecem} pessoas conhecendo seu perfil.`
+          : `Se não considerarmos essa etapa, “conhecem” fica igual a “chegam”: ${leadsNec} pessoas.`,
+        `Fechando ${metaVendas} vendas, você atinge ${moneyBRL(fatMeta)}.`
+      ].join(' ');
+
+      els.resumo.textContent = resumo;
     }
 
-    ["inv","cpl","tag","tcomp","tconv","ticket"].forEach(id => $(id).addEventListener("input", calc));
-    ["capSdr","capCloser"].forEach(id => $(id).addEventListener("input", calc));
+    function bind(){
+      ['input','change'].forEach(evt=>{
+        els.ticketMedio.addEventListener(evt, calcular);
+        els.vendasHoje.addEventListener(evt, calcular);
+        els.metaVendas.addEventListener(evt, calcular);
+        els.fechamEm20.addEventListener(evt, calcular);
+        els.taxaConhecemParaLead.addEventListener(evt, calcular);
+      });
 
-    el.tabPadrao.addEventListener("click", ()=>setMode("padrao"));
-    el.tabVideo.addEventListener("click", ()=>setMode("video"));
+      els.btnExemplo.addEventListener('click', ()=>{
+        els.ticketMedio.value = '450';
+        els.vendasHoje.value = '10';
+        els.metaVendas.value = '25';
+        els.fechamEm20.value = '2';
+        els.taxaConhecemParaLead.value = '25'; // opcional
+        calcular();
+      });
 
-    calc();
+      els.btnLimpar.addEventListener('click', ()=>{
+        els.ticketMedio.value = '';
+        els.vendasHoje.value = '';
+        els.metaVendas.value = '';
+        els.fechamEm20.value = '';
+        els.taxaConhecemParaLead.value = '';
+        calcular();
+      });
+
+      els.btnCopiar.addEventListener('click', async ()=>{
+        try{
+          await navigator.clipboard.writeText(els.resumo.textContent);
+          els.btnCopiar.textContent = 'Copiado!';
+          setTimeout(()=> els.btnCopiar.textContent = 'Copiar', 1200);
+        }catch(e){
+          els.btnCopiar.textContent = 'Falhou';
+          setTimeout(()=> els.btnCopiar.textContent = 'Copiar', 1200);
+        }
+      });
+    }
+
+    bind();
+    calcular();
   </script>
-
 </body>
 </html>
