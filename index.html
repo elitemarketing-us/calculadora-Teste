@@ -272,87 +272,48 @@
         <div class="muted-note">Engajamento médio considerado automaticamente: 60%.</div>
       </div>
 
-      <!-- FUNIL (corrigido) -->
+      <!-- FUNIL (SUBSTITUÍDO - modelo em blocos, igual ao print) -->
       <div class="funnel-box" style="margin-top:14px;">
         <div class="funnel-wrap">
-          <!--
-            FUNIL no estilo do print:
-            - trapézios separados
-            - linhas pretas finas
-            - fundo cinza claro
-            - textos menores e leves
-            - número de "Compram" vermelho
-          -->
-          <svg viewBox="0 0 360 420" aria-label="Funil de vendas">
-            <!-- Fundo transparente -->
-            <!-- Número do topo (Chegam) -->
-            <text id="nChegam" x="180" y="42"
-                  text-anchor="middle"
-                  font-size="22"
-                  fill="#111827"
-                  font-weight="400">0</text>
-
-            <!-- 1) Chegam (trapézio) -->
+          <svg viewBox="0 0 300 420" aria-label="Funil de vendas">
+            <!-- ETAPA 1 -->
             <polygon
-              points="70,70 290,70 270,150 90,150"
-              fill="#e9e9e9"
+              points="30,40 270,40 240,110 60,110"
+              fill="#ededed"
               stroke="#111"
-              stroke-width="1.2"
+              stroke-width="1"
               stroke-linejoin="round"
             />
-            <text x="180" y="118"
-                  text-anchor="middle"
-                  font-size="18"
-                  fill="#8b8b8b"
-                  font-weight="400">Chegam</text>
+            <text x="150" y="75" text-anchor="middle"
+                  font-size="14" fill="#8b8b8b" font-weight="400">Chegam</text>
+            <text id="nChegam" x="150" y="98" text-anchor="middle"
+                  font-size="16" fill="#111827" font-weight="400">0</text>
 
-            <!-- 2) Engajam (trapézio) -->
+            <!-- ETAPA 2 -->
             <polygon
-              points="90,170 270,170 255,250 105,250"
-              fill="#e9e9e9"
+              points="50,140 250,140 220,210 80,210"
+              fill="#ededed"
               stroke="#111"
-              stroke-width="1.2"
+              stroke-width="1"
               stroke-linejoin="round"
             />
-            <text id="nEngajam" x="180" y="215"
-                  text-anchor="middle"
-                  font-size="22"
-                  fill="#111827"
-                  font-weight="400">0</text>
-            <text x="180" y="238"
-                  text-anchor="middle"
-                  font-size="18"
-                  fill="#8b8b8b"
-                  font-weight="400">Engajam</text>
+            <text x="150" y="175" text-anchor="middle"
+                  font-size="14" fill="#8b8b8b" font-weight="400">Engajam</text>
+            <text id="nEngajam" x="150" y="198" text-anchor="middle"
+                  font-size="16" fill="#111827" font-weight="400">0</text>
 
-            <!-- 3) Transição (trapézio menor, sem texto) -->
+            <!-- ETAPA 3 -->
             <polygon
-              points="120,270 240,270 230,320 130,320"
-              fill="#e9e9e9"
+              points="70,240 230,240 205,305 95,305"
+              fill="#ededed"
               stroke="#111"
-              stroke-width="1.2"
+              stroke-width="1"
               stroke-linejoin="round"
             />
-
-            <!-- 4) Haste (Compram) -->
-            <polygon
-              points="150,320 210,320 225,392 135,392"
-              fill="#e9e9e9"
-              stroke="#111"
-              stroke-width="1.2"
-              stroke-linejoin="round"
-            />
-            <text id="nCompram" x="180" y="372"
-                  text-anchor="middle"
-                  font-size="26"
-                  fill="#b24a4a"
-                  font-weight="400">0</text>
-
-            <text x="180" y="414"
-                  text-anchor="middle"
-                  font-size="18"
-                  fill="#8b8b8b"
-                  font-weight="400">Compram</text>
+            <text id="nCompram" x="150" y="282" text-anchor="middle"
+                  font-size="18" fill="#b24a4a" font-weight="400">0</text>
+            <text x="150" y="330" text-anchor="middle"
+                  font-size="14" fill="#8b8b8b" font-weight="400">Compram</text>
           </svg>
         </div>
       </div>
@@ -424,15 +385,14 @@
       const conv = Math.max(0, Math.min(1, compramPor20 / 20));
 
       // Pessoas que precisam chegar para bater a meta
-      // (garantindo conv > 0)
       const chegam = (conv > 0) ? Math.ceil(meta / conv) : 0;
 
-      // Engajam = 60% de quem chega, mas NUNCA pode ser menor que compram (para não dar absurdo visual)
+      // Engajam = 60% de quem chega (e nunca menor que meta)
       let engajam = Math.ceil(chegam * ENG);
       if (engajam < meta) engajam = meta;
       if (engajam > chegam) engajam = chegam;
 
-      // Compram = meta (o funil é “quanto precisa” para bater a meta)
+      // Compram = meta
       const compram = meta;
 
       // Atualiza funil
