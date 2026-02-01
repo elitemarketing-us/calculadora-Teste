@@ -3,25 +3,30 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Calculadora — Ticket, Meta e Conversão</title>
+  <title>Calculadora de Ticket, Meta e Conversão</title>
 
   <style>
     :root{
       --bg:#ffffff;
 
-      /* Caixas */
-      --card:#f3f4f6;     /* cinza claro */
+      --panel:#f3f4f6;      /* caixas cinza claro */
       --border:#e5e7eb;
-
-      /* “Caixinhas dos valores” */
-      --pill:#e0e3e8;     /* um pouco mais escuro que o card */
-      --pillBorder:#d1d5db;
 
       --text:#111827;
       --muted:#6b7280;
 
-      --radius:16px;
-      --shadow: 0 12px 30px rgba(17,24,39,.08);
+      --valuebg:#e5e7eb;    /* caixinhas dos valores (um pouco mais escuro) */
+
+      --accent:#374151;     /* preenchimento do slider */
+      --track:#d1d5db;      /* trilho do slider */
+      --thumb:#111827;
+
+      --goodbg:#e9fff0;     /* verde bem claro */
+      --goodborder:#b7f7c7;
+      --goodtext:#0f6a2f;
+
+      --shadow: 0 10px 28px rgba(17,24,39,.08);
+      --radius:18px;
     }
 
     *{ box-sizing:border-box; }
@@ -34,24 +39,25 @@
 
     .wrap{
       max-width: 1100px;
-      margin: 28px auto;
-      padding: 0 16px 28px;
+      margin: 26px auto;
+      padding: 0 16px 26px;
     }
 
     .topbar{
       display:flex;
       align-items:center;
       justify-content:center;
-      padding: 12px 10px 18px;
+      padding: 10px 10px 16px;
       border-bottom: 1px solid var(--border);
       margin-bottom: 18px;
     }
 
-    .brand{
+    .title{
       margin:0;
       font-weight: 900;
       letter-spacing: .2px;
-      font-size: 18px;
+      font-size: 20px;
+      text-align:center;
     }
 
     .grid{
@@ -63,15 +69,15 @@
       .grid{ grid-template-columns: 1fr; }
     }
 
-    .card{
-      background: var(--card);
+    .panel{
+      background: var(--panel);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       padding: 18px;
     }
 
-    .card h2{
+    .panel h2{
       margin: 0 0 12px;
       font-size: 13px;
       letter-spacing:.8px;
@@ -81,85 +87,116 @@
 
     .row{
       padding: 12px 0;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid rgba(17,24,39,.08);
     }
     .row:last-child{ border-bottom: 0; padding-bottom: 2px; }
 
-    .line{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap: 12px;
-    }
-
-    label{
-      font-size: 14px;
-      font-weight: 800;
-      color: #111827;
-      display:block;
-      margin-bottom: 6px;
-    }
-
-    .hint{
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.35;
-      margin-top: 2px;
-    }
-
-    input{
-      width: 100%;
-      padding: 12px 12px;
-      border-radius: 12px;
-      border: 1px solid var(--pillBorder);
-      background: #ffffff;
-      color: var(--text);
-      font-weight: 800;
-      font-size: 14px;
-      outline: none;
-    }
-    input:focus{
-      border-color: #9ca3af;
-      box-shadow: 0 0 0 3px rgba(156,163,175,.25);
-    }
-
-    .pill{
-      background: var(--pill);
-      border: 1px solid var(--pillBorder);
-      border-radius: 14px;
-      padding: 14px;
+    .label-line{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap: 12px;
-      margin-top: 10px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
 
-    .pill .k{
-      font-size: 13px;
-      font-weight: 900;
-      color:#111827;
+    .label{
+      font-size: 15px;
+      font-weight: 800;
+      color: #111827;
     }
-    .pill .v{
+
+    .value{
       font-variant-numeric: tabular-nums;
-      font-size: 16px;
       font-weight: 900;
-      color:#111827;
+      font-size: 14px;
+      color: #111827;
+      background: var(--valuebg);
+      border: 1px solid rgba(17,24,39,.08);
+      padding: 6px 10px;
+      border-radius: 12px;
+      min-width: 110px;
+      text-align:right;
     }
 
-    .muted{
-      color: var(--muted);
-      font-weight: 700;
-      font-size: 12px;
-      margin-top: 10px;
-      line-height: 1.35;
+    /* Slider */
+    input[type="range"]{
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      outline: none;
+      background: linear-gradient(to right,
+        var(--accent) 0%,
+        var(--accent) var(--fill, 50%),
+        var(--track) var(--fill, 50%),
+        var(--track) 100%);
+      appearance:none;
+      -webkit-appearance:none;
     }
 
-    .stack{
+    input[type="range"]::-webkit-slider-thumb{
+      -webkit-appearance:none;
+      appearance:none;
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: #fff;
+      border: 4px solid var(--thumb);
+      box-shadow: 0 8px 18px rgba(0,0,0,.12);
+      cursor: pointer;
+    }
+    input[type="range"]::-moz-range-thumb{
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: #fff;
+      border: 4px solid var(--thumb);
+      box-shadow: 0 8px 18px rgba(0,0,0,.12);
+      cursor: pointer;
+    }
+
+    /* Cards de resultado */
+    .cards{
       display:flex;
       flex-direction:column;
       gap: 12px;
       margin-top: 8px;
+    }
+
+    .card{
+      background: #f6f7f9;
+      border: 1px solid rgba(17,24,39,.10);
+      border-radius: 16px;
+      padding: 14px 14px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap: 12px;
+    }
+    .card .k{
+      font-size: 13px;
+      font-weight: 900;
+      color: #111827;
+    }
+    .card .v{
+      font-variant-numeric: tabular-nums;
+      font-size: 16px;
+      font-weight: 900;
+      color: #111827;
+    }
+
+    .card.good{
+      background: var(--goodbg);
+      border-color: var(--goodborder);
+    }
+    .card.good .k, .card.good .v{
+      color: var(--goodtext);
+    }
+
+    .hint{
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.35;
     }
   </style>
 </head>
@@ -167,172 +204,161 @@
 <body>
   <div class="wrap">
     <header class="topbar">
-      <h1 class="brand">Calculadora de Ticket, Meta e Conversão</h1>
+      <h1 class="title">Calculadora de Ticket, Meta e Conversão</h1>
     </header>
 
     <div class="grid">
-      <!-- ESQUERDA: ENTRADAS -->
-      <section class="card">
-        <h2>Entradas</h2>
+      <!-- ENTRADAS -->
+      <section class="panel">
+        <h2>Parâmetros</h2>
 
+        <!-- Ticket -->
         <div class="row">
-          <label for="ticket">Ticket (R$)</label>
-          <input id="ticket" type="number" min="0" step="1" value="450" inputmode="numeric" />
-          <div class="hint">Quanto você ganha por venda.</div>
+          <div class="label-line">
+            <div class="label">Ticket (R$)</div>
+            <div class="value" id="vTicket">R$ 450</div>
+          </div>
+          <input id="ticket" type="range" min="50" max="5000" step="50" value="450" />
         </div>
 
+        <!-- Vendas atuais -->
         <div class="row">
-          <label for="vendasAtual">Vendas atuais</label>
-          <input id="vendasAtual" type="number" min="0" step="1" value="10" inputmode="numeric" />
-          <div class="hint">Quantas vendas você faz hoje (no período que você está analisando).</div>
+          <div class="label-line">
+            <div class="label">Vendas atuais</div>
+            <div class="value" id="vAtuais">10</div>
+          </div>
+          <input id="atuais" type="range" min="1" max="50" step="1" value="10" />
         </div>
 
+        <!-- Meta de vendas -->
         <div class="row">
-          <label for="metaVendas">Meta de vendas</label>
-          <input id="metaVendas" type="number" min="0" step="1" value="25" inputmode="numeric" />
-          <div class="hint">Quantas vendas você quer bater.</div>
+          <div class="label-line">
+            <div class="label">Meta de vendas</div>
+            <div class="value" id="vMeta">30</div>
+          </div>
+          <input id="meta" type="range" min="1" max="100" step="1" value="30" />
         </div>
 
+        <!-- Conversão: a cada 20 chegam, quantos compram -->
         <div class="row">
-          <label for="compraEm20">A cada 20 que chegam, quantos compram?</label>
-          <input id="compraEm20" type="number" min="0" max="20" step="1" value="2" inputmode="numeric" />
-          <div class="hint">Exemplo: 2 significa 2 compras a cada 20 pessoas que chegam.</div>
+          <div class="label-line">
+            <div class="label">A cada 20 que chegam, quantos compram?</div>
+            <div class="value" id="vCompram">2</div>
+          </div>
+          <input id="compram" type="range" min="1" max="20" step="1" value="2" />
         </div>
 
-        <div class="muted">
-          Engajamento médio considerado automaticamente: <b>60%</b>.
-        </div>
+        <div class="hint">Engajamento médio considerado automaticamente: 60%.</div>
       </section>
 
-      <!-- DIREITA: RESULTADOS -->
-      <aside class="card">
-        <h2>Resultados</h2>
+      <!-- RESULTADOS -->
+      <aside class="panel">
+        <h2>Resultado</h2>
 
-        <div class="stack">
-          <div class="pill">
-            <div class="k">Faturamento atual</div>
-            <div class="v" id="fatAtual">R$ 0</div>
+        <div class="cards">
+          <div class="card good">
+            <div class="k">Faturamento</div>
+            <div class="v" id="rFatAtual">R$ 0</div>
           </div>
 
-          <div class="pill">
+          <div class="card">
             <div class="k">Faturamento na meta</div>
-            <div class="v" id="fatMeta">R$ 0</div>
+            <div class="v" id="rFatMeta">R$ 0</div>
           </div>
 
-          <div class="pill">
-            <div class="k">Diferença (gap)</div>
-            <div class="v" id="gap">R$ 0</div>
-          </div>
-        </div>
-
-        <h2 style="margin-top:18px;">Conversão</h2>
-
-        <div class="stack">
-          <div class="pill">
+          <div class="card">
             <div class="k">Quantas pessoas precisam chegar</div>
-            <div class="v" id="precisaChegar">—</div>
+            <div class="v" id="rChegar">0</div>
           </div>
 
-          <div class="pill">
+          <div class="card">
             <div class="k">Quantas pessoas engajam (60%)</div>
-            <div class="v" id="engajam">—</div>
-          </div>
-
-          <div class="pill">
-            <div class="k">Para gerar a meta de vendas</div>
-            <div class="v" id="geraMeta">0</div>
+            <div class="v" id="rEngajar">0</div>
           </div>
         </div>
-
-        <div class="muted" id="obs"></div>
       </aside>
     </div>
   </div>
 
   <script>
-    const $ = (id) => document.getElementById(id);
-
     const el = {
-      ticket: $('ticket'),
-      vendasAtual: $('vendasAtual'),
-      metaVendas: $('metaVendas'),
-      compraEm20: $('compraEm20'),
+      ticket: document.getElementById('ticket'),
+      atuais: document.getElementById('atuais'),
+      meta: document.getElementById('meta'),
+      compram: document.getElementById('compram'),
 
-      fatAtual: $('fatAtual'),
-      fatMeta: $('fatMeta'),
-      gap: $('gap'),
+      vTicket: document.getElementById('vTicket'),
+      vAtuais: document.getElementById('vAtuais'),
+      vMeta: document.getElementById('vMeta'),
+      vCompram: document.getElementById('vCompram'),
 
-      precisaChegar: $('precisaChegar'),
-      engajam: $('engajam'),
-      geraMeta: $('geraMeta'),
-      obs: $('obs'),
+      rFatAtual: document.getElementById('rFatAtual'),
+      rFatMeta: document.getElementById('rFatMeta'),
+      rChegar: document.getElementById('rChegar'),
+      rEngajar: document.getElementById('rEngajar'),
     };
 
-    const brl0 = new Intl.NumberFormat('pt-BR', { style:'currency', currency:'BRL', maximumFractionDigits: 0 });
+    const brl0 = new Intl.NumberFormat('pt-BR', {
+      style:'currency',
+      currency:'BRL',
+      maximumFractionDigits: 0
+    });
+
     const int0 = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 0 });
 
-    function n(v){
-      const x = Number(v);
-      return Number.isFinite(x) ? x : 0;
+    function setFill(rangeEl){
+      const min = Number(rangeEl.min);
+      const max = Number(rangeEl.max);
+      const val = Number(rangeEl.value);
+      const pct = (max === min) ? 0 : ((val - min) / (max - min)) * 100;
+      rangeEl.style.setProperty('--fill', pct.toFixed(2) + '%');
     }
 
-    function clamp(x, min, max){
-      return Math.min(max, Math.max(min, x));
+    function read(){
+      return {
+        ticket: Number(el.ticket.value),
+        atuais: Number(el.atuais.value),
+        meta: Number(el.meta.value),
+        compram: Number(el.compram.value) // compras a cada 20
+      };
     }
 
     function calc(){
-      const ticket = Math.max(0, Math.floor(n(el.ticket.value)));
-      const vendasAtual = Math.max(0, Math.floor(n(el.vendasAtual.value)));
-      const metaVendas = Math.max(0, Math.floor(n(el.metaVendas.value)));
+      const { ticket, atuais, meta, compram } = read();
 
-      let compraEm20 = Math.floor(n(el.compraEm20.value));
-      compraEm20 = clamp(compraEm20, 0, 20);
-
-      // mantém input “limpo”
-      el.ticket.value = ticket;
-      el.vendasAtual.value = vendasAtual;
-      el.metaVendas.value = metaVendas;
-      el.compraEm20.value = compraEm20;
+      // valores exibidos (caixinhas)
+      el.vTicket.textContent = brl0.format(ticket);
+      el.vAtuais.textContent = String(atuais);
+      el.vMeta.textContent = String(meta);
+      el.vCompram.textContent = String(compram);
 
       // faturamentos
-      const faturamentoAtual = vendasAtual * ticket;
-      const faturamentoMeta = metaVendas * ticket;
-      const gap = Math.max(0, faturamentoMeta - faturamentoAtual);
+      const faturAtual = atuais * ticket;
+      const faturMeta = meta * ticket;
 
-      el.fatAtual.textContent = brl0.format(faturamentoAtual);
-      el.fatMeta.textContent = brl0.format(faturamentoMeta);
-      el.gap.textContent = brl0.format(gap);
+      // conversão (compram/20)
+      const taxaCompra = compram / 20; // sempre > 0, porque compram min = 1
 
-      // conversão
-      el.geraMeta.textContent = int0.format(metaVendas);
+      // pessoas que precisam chegar para bater a meta (arredonda pra cima)
+      const pessoasChegar = Math.ceil(meta / taxaCompra);
 
-      const engRate = 0.60;
+      // engajam = 60% de quem chega (arredonda pra cima)
+      const pessoasEngajar = Math.ceil(pessoasChegar * 0.60);
 
-      if (compraEm20 <= 0){
-        el.precisaChegar.textContent = "—";
-        el.engajam.textContent = "—";
-        el.obs.textContent = "Se a resposta for 0 compras a cada 20 que chegam, não dá para calcular o volume necessário (conversão zero).";
-        return;
-      }
+      // resultados
+      el.rFatAtual.textContent = brl0.format(faturAtual);
+      el.rFatMeta.textContent = brl0.format(faturMeta);
+      el.rChegar.textContent = int0.format(pessoasChegar);
+      el.rEngajar.textContent = int0.format(pessoasEngajar);
 
-      // conversão: compras por chegada = compraEm20 / 20
-      // chegadas necessárias = metaVendas / (compraEm20/20) = metaVendas * 20 / compraEm20
-      const pessoasChegar = Math.ceil((metaVendas * 20) / compraEm20);
-      const pessoasEngajam = Math.ceil(pessoasChegar * engRate);
-
-      el.precisaChegar.textContent = int0.format(pessoasChegar);
-      el.engajam.textContent = int0.format(pessoasEngajam);
-
-      el.obs.textContent =
-        `Conversão usada: ${compraEm20}/20 (= ${(compraEm20/20*100).toFixed(1).replace('.', ',')}%). ` +
-        `Engajamento médio: 60%.`;
+      // atualizar preenchimento dos sliders
+      [el.ticket, el.atuais, el.meta, el.compram].forEach(setFill);
     }
 
-    ['input','change'].forEach(evt => {
-      el.ticket.addEventListener(evt, calc);
-      el.vendasAtual.addEventListener(evt, calc);
-      el.metaVendas.addEventListener(evt, calc);
-      el.compraEm20.addEventListener(evt, calc);
+    // listeners
+    [el.ticket, el.atuais, el.meta, el.compram].forEach((r) => {
+      r.addEventListener('input', calc);
+      setFill(r);
     });
 
     calc();
