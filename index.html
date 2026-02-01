@@ -9,244 +9,192 @@
     :root{
       --bg:#ffffff;
 
-      /* caixas */
-      --panel:#f3f4f6;     /* cinza claro */
-      --pill:#e5e7eb;      /* cinza um pouco mais escuro */
-      --border:#e5e7eb;
+      --panel:#f4f5f7;          /* caixas cinza claro */
+      --panel-border:#e3e6eb;
+
+      --pill:#e7e9ee;           /* caixinha do valor (um pouco mais escura) */
+      --pill-border:#d7dbe3;
 
       --text:#111827;
       --muted:#6b7280;
 
-      /* slider */
-      --accent:#374151;    /* preenchimento */
-      --track:#d1d5db;     /* trilho */
+      --track:#d8dbe2;
+      --fill:#111827;
       --thumb:#111827;
 
-      /* destaque */
-      --green:#d9ffd2;     /* verde claro (faturamento) */
+      --goalbg:#bfffe0;         /* verde fluorescente claro (meta) */
+      --goalborder:#88f4c6;
 
+      --shadow:0 10px 26px rgba(17,24,39,.08);
       --radius:18px;
-      --shadow: 0 10px 26px rgba(17,24,39,.06);
     }
 
     *{ box-sizing:border-box; }
     body{
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      background: var(--bg);
-      color: var(--text);
-      font-weight: 400;
+      background:var(--bg);
+      color:var(--text);
     }
 
     .wrap{
-      max-width: 760px;
-      margin: 22px auto;
-      padding: 0 16px 34px;
+      max-width: 620px;
+      margin: 22px auto 30px;
+      padding: 0 14px;
     }
 
-    header{
+    .title{
       text-align:center;
-      padding: 14px 8px 18px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 18px;
-    }
-
-    h1{
-      margin:0;
       font-size: 20px;
+      font-weight: 500;         /* sem “peso” forte */
       letter-spacing: .2px;
-      font-weight: 400; /* minimalista */
+      margin: 6px 0 18px;
     }
 
     .panel{
       background: var(--panel);
-      border: 1px solid var(--border);
+      border: 1px solid var(--panel-border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 18px;
+      padding: 16px;
       margin-bottom: 14px;
     }
 
-    .panel-title{
-      font-size: 13px;
+    .panel h2{
+      margin: 0 0 12px;
+      font-size: 12px;
       letter-spacing: .9px;
       text-transform: uppercase;
+      font-weight: 500;
       color: var(--muted);
-      margin: 0 0 12px;
-      font-weight: 400;
     }
 
     .row{
-      padding: 14px 0;
-      border-bottom: 1px solid rgba(17,24,39,.08);
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(17,24,39,.07);
     }
-    .row:last-child{ border-bottom:0; padding-bottom: 4px; }
+    .row:last-child{ border-bottom: 0; padding-bottom: 0; }
 
-    .label-line{
+    .line{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap: 10px;
+      gap: 12px;
       margin-bottom: 10px;
     }
 
     .label{
       font-size: 14px;
+      font-weight: 400;  /* minimalista (sem negrito) */
       color: var(--text);
-      font-weight: 400;
     }
 
     .pill{
-      min-width: 124px;
-      text-align:right;
+      min-width: 112px;
+      text-align: right;
       padding: 8px 12px;
-      border-radius: 14px;
       background: var(--pill);
-      border: 1px solid rgba(17,24,39,.08);
+      border: 1px solid var(--pill-border);
+      border-radius: 999px;
       font-variant-numeric: tabular-nums;
       font-weight: 400;
       color: var(--text);
     }
 
-    /* slider fino */
+    /* Slider (mais fino) */
     input[type="range"]{
-      width: 100%;
-      height: 6px; /* mais fino */
+      width:100%;
+      height: 6px;               /* mais fino */
       border-radius: 999px;
-      outline: none;
-      background: linear-gradient(to right,
-        var(--accent) 0%,
-        var(--accent) var(--fill, 0%),
-        var(--track) var(--fill, 0%),
-        var(--track) 100%);
+      outline:none;
       appearance:none;
       -webkit-appearance:none;
+      background: linear-gradient(to right,
+        var(--fill) 0%,
+        var(--fill) var(--p, 0%),
+        var(--track) var(--p, 0%),
+        var(--track) 100%);
     }
     input[type="range"]::-webkit-slider-thumb{
       -webkit-appearance:none;
       appearance:none;
-      width: 16px;
-      height: 16px;
+      width: 18px;
+      height: 18px;
       border-radius: 999px;
       background: #fff;
       border: 3px solid var(--thumb);
-      box-shadow: 0 8px 14px rgba(0,0,0,.10);
-      cursor: pointer;
+      box-shadow: 0 10px 18px rgba(0,0,0,.10);
+      cursor:pointer;
     }
     input[type="range"]::-moz-range-thumb{
-      width: 16px;
-      height: 16px;
+      width: 18px;
+      height: 18px;
       border-radius: 999px;
       background: #fff;
       border: 3px solid var(--thumb);
-      box-shadow: 0 8px 14px rgba(0,0,0,.10);
-      cursor: pointer;
+      box-shadow: 0 10px 18px rgba(0,0,0,.10);
+      cursor:pointer;
     }
 
+    /* Cards de resultado */
     .card{
-      background:#ffffff;
+      background:#ffffff; /* faturamento: fundo branco */
       border: 1px solid rgba(17,24,39,.10);
       border-radius: 16px;
       padding: 14px 14px;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap: 10px;
+      gap: 12px;
     }
 
-    .card.green{
-      background: var(--green);
-      border-color: rgba(17,24,39,.10);
-    }
-
-    .k{
-      color: var(--muted);
-      font-size: 13px;
+    .card .k{
+      font-size: 14px;
       font-weight: 400;
-    }
-
-    .v{
       color: var(--text);
-      font-size: 16px;
+    }
+    .card .v{
       font-variant-numeric: tabular-nums;
+      font-size: 16px;
       font-weight: 400;
+      color: var(--text);
+    }
+
+    .card.goal{
+      background: var(--goalbg);   /* faturamento na meta: verde */
+      border-color: var(--goalborder);
     }
 
     /* Funil */
-    .funnel-box{
+    .funnelWrap{
       background:#ffffff;
       border: 1px solid rgba(17,24,39,.10);
       border-radius: 16px;
-      padding: 16px 14px 18px;
+      padding: 12px;
       display:flex;
       justify-content:center;
       align-items:center;
     }
 
-    svg{
-      display:block;
-      width: 100%;
-      max-width: 380px;
-      height:auto;
-    }
-
-    /* ===== FUNIL: estética do print ===== */
-    .fOutline{ stroke:#111111; stroke-width:2; fill:none; }
-    .fOuterShadow{ stroke:#000000; stroke-opacity:.14; stroke-width:5; fill:none; }
-    .fFillTop{ fill:#ededed; }
-    .fFillMid{ fill:#efefef; }
-    .fFillNeck{ fill:#f4f4f4; }
-    .fDivider{ stroke:#111111; stroke-opacity:.35; stroke-width:2; }
-    .fLabel{
-      fill:#7a7a7a;
-      font-weight:400;
-      font-size: 30px;
-      letter-spacing:.2px;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-    }
-    .fNum{
-      fill:#111111;
-      font-weight:400;
-      font-size: 34px;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-    }
-    .fBuyNum{
-      fill:#b0412e; /* vermelho do print */
-      font-weight:400;
-      font-size: 44px;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-    }
-    .fBuyLabel{
-      fill:#9b9b9b;
-      font-weight:400;
-      font-size: 34px;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-    }
-
-    .fArrow{
-      stroke:#111111;
-      stroke-opacity:.55;
-      stroke-width:2;
-      fill:none;
-      stroke-dasharray:6 7; /* pontilhado */
-      stroke-linecap:round;
+    .foot-muted{
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 400;
     }
   </style>
 </head>
 
 <body>
   <div class="wrap">
-    <header>
-      <h1>Método Marcelo Reinecken</h1>
-    </header>
+    <div class="title">Calculadora de Ticket, Meta e Conversão</div>
 
-    <!-- ORDEM IGUAL AO PRINT -->
-    <!-- 1) PARÂMETROS: Ticket + Vendas atuais -->
+    <!-- 1) PARÂMETROS (Ticket + Vendas atuais) -->
     <section class="panel">
-      <div class="panel-title">Parâmetros</div>
+      <h2>Parâmetros</h2>
 
       <div class="row">
-        <div class="label-line">
+        <div class="line">
           <div class="label">Ticket ($)</div>
           <div class="pill" id="vTicket">$ 450</div>
         </div>
@@ -254,27 +202,27 @@
       </div>
 
       <div class="row">
-        <div class="label-line">
+        <div class="line">
           <div class="label">Vendas atuais</div>
-          <div class="pill" id="vVendasAtuais">10</div>
+          <div class="pill" id="vAtual">10</div>
         </div>
-        <input id="vendasAtuais" type="range" min="1" max="50" step="1" value="10" />
+        <input id="atual" type="range" min="1" max="50" step="1" value="10" />
       </div>
     </section>
 
-    <!-- 2) RESULTADO: Faturamento (verde claro) -->
+    <!-- 2) RESULTADO (Faturamento atual) -->
     <section class="panel">
-      <div class="panel-title">Resultado</div>
-      <div class="card green">
+      <h2>Resultado</h2>
+      <div class="card">
         <div class="k">Faturamento</div>
-        <div class="v" id="rFatAtual">$ 0</div>
+        <div class="v" id="rFat">$ 0</div>
       </div>
     </section>
 
-    <!-- 3) Meta de vendas (slider) -->
+    <!-- 3) META (slider) -->
     <section class="panel">
       <div class="row" style="padding-top:0;">
-        <div class="label-line">
+        <div class="line">
           <div class="label">Meta de vendas</div>
           <div class="pill" id="vMeta">30</div>
         </div>
@@ -282,141 +230,181 @@
       </div>
     </section>
 
-    <!-- 4) Faturamento na meta (branco) -->
+    <!-- 4) FATURAMENTO NA META (verde) -->
     <section class="panel">
-      <div class="card">
+      <div class="card goal">
         <div class="k">Faturamento na meta</div>
-        <div class="v" id="rFatMeta">$ 0</div>
+        <div class="v" id="rMetaFat">$ 0</div>
       </div>
     </section>
 
-    <!-- 5) Conversão (slider) -->
+    <!-- 5) CONVERSÃO -->
     <section class="panel">
       <div class="row" style="padding-top:0;">
-        <div class="label-line">
+        <div class="line">
           <div class="label">A cada 20 que chegam, quantos compram?</div>
           <div class="pill" id="vConv">2</div>
         </div>
         <input id="conv" type="range" min="1" max="20" step="1" value="2" />
       </div>
+
+      <div class="foot-muted">Engajamento médio considerado automaticamente: 60%.</div>
     </section>
 
-    <!-- 6) FUNIL (alterado: estética 100% do print) -->
+    <!-- 6) FUNIL (apenas o funil, sem tabela) -->
     <section class="panel">
-      <div class="funnel-box">
-        <svg viewBox="0 0 520 640" role="img" aria-label="Funil">
-          <!-- setas pontilhadas de cima (como no print) -->
-          <path class="fArrow" d="M260 38 C240 55, 220 70, 210 92" />
-          <path class="fArrow" d="M260 38 C260 58, 260 76, 260 98" />
-          <path class="fArrow" d="M260 38 C280 55, 300 70, 310 92" />
+      <div class="funnelWrap">
+        <!-- SVG simétrico e “reto”, estética do print (linhas pretas finas, texto menor, fundo claro) -->
+        <svg id="funnelSvg" width="360" height="430" viewBox="0 0 360 430" role="img" aria-label="Funil">
+          <!-- fundo -->
+          <rect x="0" y="0" width="360" height="430" fill="#ffffff"/>
 
-          <!-- leve "sombra" externa (como dupla linha do print) -->
-          <path class="fOuterShadow" d="M92 110 L428 110 L372 250 L148 250 L188 446 L332 446 L344 512 L176 512 L148 250" opacity=".0"/>
-          <!-- FUNIL (simétrico, reto) -->
-          <!-- corpo (top + middle) -->
-          <polygon class="fFillTop" points="90,110 430,110 360,330 160,330"></polygon>
-          <polygon class="fFillMid" points="160,330 360,330 330,470 190,470"></polygon>
+          <!-- traços “pretos finos” -->
+          <!-- Parte superior (trapézio grande) -->
+          <polygon
+            points="70,70 290,70 240,260 120,260"
+            fill="#f1f1f1"
+            stroke="#000000"
+            stroke-width="1.4"
+            stroke-linejoin="round"/>
 
-          <!-- bocal (neck) -->
-          <polygon class="fFillNeck" points="225,470 295,470 315,590 205,590"></polygon>
+          <!-- Divisórias internas -->
+          <line x1="86" y1="150" x2="274" y2="150" stroke="#000000" stroke-width="1.2" opacity=".35"/>
+          <line x1="102" y1="215" x2="258" y2="215" stroke="#000000" stroke-width="1.2" opacity=".35"/>
 
-          <!-- contorno -->
-          <polygon class="fOutline" points="90,110 430,110 360,330 160,330"></polygon>
-          <polygon class="fOutline" points="160,330 360,330 330,470 190,470"></polygon>
-          <polygon class="fOutline" points="225,470 295,470 315,590 205,590"></polygon>
+          <!-- Gargalo -->
+          <polygon
+            points="140,260 220,260 240,400 120,400"
+            fill="#f7f7f7"
+            stroke="#000000"
+            stroke-width="1.4"
+            stroke-linejoin="round"/>
 
-          <!-- divisórias internas (bem finas) -->
-          <line class="fDivider" x1="140" y1="250" x2="380" y2="250"></line>
-          <line class="fDivider" x1="175" y1="410" x2="345" y2="410"></line>
+          <!-- Textos (menores, cinza) -->
+          <text id="nChegam" x="180" y="44" text-anchor="middle"
+                font-size="34" fill="#000000"
+                font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial"
+                style="font-weight:400;">0</text>
 
-          <!-- textos (menores, cinza, como no print) -->
-          <!-- Chegam -->
-          <text id="fChegamN" x="260" y="210" text-anchor="middle" class="fNum">0</text>
-          <text x="260" y="185" text-anchor="middle" class="fLabel">Chegam</text>
+          <text x="180" y="118" text-anchor="middle"
+                font-size="34" fill="#7a7a7a"
+                font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial"
+                style="font-weight:400;">Chegam</text>
 
-          <!-- Engajam -->
-          <text id="fEngajamN" x="260" y="365" text-anchor="middle" class="fNum">0</text>
-          <text x="260" y="340" text-anchor="middle" class="fLabel">Engajam</text>
+          <text id="nEngajam" x="180" y="205" text-anchor="middle"
+                font-size="38" fill="#000000"
+                font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial"
+                style="font-weight:400;">0</text>
 
-          <!-- Compram: número vermelho dentro do bocal + label abaixo -->
-          <text id="fCompramN" x="260" y="545" text-anchor="middle" class="fBuyNum">0</text>
-          <text x="260" y="630" text-anchor="middle" class="fBuyLabel">Compram</text>
+          <text x="180" y="252" text-anchor="middle"
+                font-size="34" fill="#7a7a7a"
+                font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial"
+                style="font-weight:400;">Engajam</text>
+
+          <text id="nCompram" x="180" y="352" text-anchor="middle"
+                font-size="54" fill="#b24b4b"  /* vermelho */
+                font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial"
+                style="font-weight:400;">0</text>
+
+          <text x="180" y="418" text-anchor="middle"
+                font-size="40" fill="#8a8a8a"
+                font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial"
+                style="font-weight:400;">Compram</text>
         </svg>
       </div>
     </section>
+
   </div>
 
   <script>
+    const $ = (id) => document.getElementById(id);
+
     const el = {
-      ticket: document.getElementById('ticket'),
-      vendasAtuais: document.getElementById('vendasAtuais'),
-      meta: document.getElementById('meta'),
-      conv: document.getElementById('conv'),
+      ticket: $('ticket'),
+      atual: $('atual'),
+      meta: $('meta'),
+      conv: $('conv'),
 
-      vTicket: document.getElementById('vTicket'),
-      vVendasAtuais: document.getElementById('vVendasAtuais'),
-      vMeta: document.getElementById('vMeta'),
-      vConv: document.getElementById('vConv'),
+      vTicket: $('vTicket'),
+      vAtual: $('vAtual'),
+      vMeta: $('vMeta'),
+      vConv: $('vConv'),
 
-      rFatAtual: document.getElementById('rFatAtual'),
-      rFatMeta: document.getElementById('rFatMeta'),
+      rFat: $('rFat'),
+      rMetaFat: $('rMetaFat'),
 
-      fChegamN: document.getElementById('fChegamN'),
-      fEngajamN: document.getElementById('fEngajamN'),
-      fCompramN: document.getElementById('fCompramN'),
+      nChegam: $('nChegam'),
+      nEngajam: $('nEngajam'),
+      nCompram: $('nCompram'),
     };
 
-    function safeInt(v, fallback){
-      const n = Number(v);
-      return Number.isFinite(n) ? n : fallback;
-    }
+    const ENGAGE_RATE = 0.60;
 
-    // moeda só com "$"
-    function money(n){
+    function fmtMoney(n){
       const x = Math.round(Number(n) || 0);
       return '$ ' + x.toLocaleString('en-US');
     }
 
     function setFill(rangeEl){
-      const min = safeInt(rangeEl.min, 0);
-      const max = safeInt(rangeEl.max, 1);
-      const val = safeInt(rangeEl.value, min);
+      const min = Number(rangeEl.min);
+      const max = Number(rangeEl.max);
+      const val = Number(rangeEl.value);
       const pct = (max === min) ? 0 : ((val - min) / (max - min)) * 100;
-      rangeEl.style.setProperty('--fill', pct.toFixed(2) + '%');
+      rangeEl.style.setProperty('--p', pct.toFixed(2) + '%');
+    }
+
+    function read(){
+      return {
+        ticket: Number(el.ticket.value),
+        atual: Number(el.atual.value),
+        meta: Number(el.meta.value),
+        buyPer20: Number(el.conv.value)
+      };
     }
 
     function calc(){
-      const ticket = safeInt(el.ticket.value, 50);
-      const vendasAtuais = safeInt(el.vendasAtuais.value, 1);
-      const metaVendas = safeInt(el.meta.value, 1);
-      const compramCada20 = safeInt(el.conv.value, 1); // 1..20
+      const { ticket, atual, meta, buyPer20 } = read();
 
-      // pills
-      el.vTicket.textContent = money(ticket);
-      el.vVendasAtuais.textContent = String(vendasAtuais);
-      el.vMeta.textContent = String(metaVendas);
-      el.vConv.textContent = String(compramCada20);
+      // valores na UI (pills)
+      el.vTicket.textContent = fmtMoney(ticket);
+      el.vAtual.textContent  = String(atual);
+      el.vMeta.textContent   = String(meta);
+      el.vConv.textContent   = String(buyPer20);
 
       // faturamentos
-      el.rFatAtual.textContent = money(vendasAtuais * ticket);
-      el.rFatMeta.textContent = money(metaVendas * ticket);
+      const faturamentoAtual = ticket * atual;
+      const faturamentoMeta  = ticket * meta;
 
-      // conversão: a cada 20 chegam, compram X => taxa = X/20
-      const taxaCompra = Math.max(compramCada20 / 20, 1e-9);
+      el.rFat.textContent     = fmtMoney(faturamentoAtual);
+      el.rMetaFat.textContent = fmtMoney(faturamentoMeta);
 
-      // funil (ordem do print)
-      const compram = metaVendas;
-      const chegam = Math.ceil(compram / taxaCompra);
-      const engajam = Math.round(chegam * 0.60);
+      // conversão: a cada 20 que chegam, buyPer20 compram
+      const conv = buyPer20 / 20;
 
-      el.fChegamN.textContent = String(chegam);
-      el.fEngajamN.textContent = String(engajam);
-      el.fCompramN.textContent = String(compram);
+      // Precisamos garantir consistência no funil:
+      // Chegam >= Engajam >= Compram
+      // Engajam = 60% dos que chegam
+      // Compram = meta (objetivo)
+      //
+      // Então:
+      // 1) Chegam precisa ser suficiente pela conversão (meta/conv)
+      // 2) Chegam precisa ser suficiente para que 60% engajem e ainda cubra a meta (meta/0.60)
+      const needByConv   = (conv > 0) ? Math.ceil(meta / conv) : 0;
+      const needByEngage = Math.ceil(meta / ENGAGE_RATE);
 
-      [el.ticket, el.vendasAtuais, el.meta, el.conv].forEach(setFill);
+      const chegam = Math.max(needByConv, needByEngage);
+      const engajam = Math.ceil(chegam * ENGAGE_RATE);
+      const compram = meta;
+
+      el.nChegam.textContent = String(chegam);
+      el.nEngajam.textContent = String(engajam);
+      el.nCompram.textContent = String(compram);
+
+      // fills
+      [el.ticket, el.atual, el.meta, el.conv].forEach(setFill);
     }
 
-    [el.ticket, el.vendasAtuais, el.meta, el.conv].forEach(r => {
+    [el.ticket, el.atual, el.meta, el.conv].forEach((r) => {
       r.addEventListener('input', calc);
       setFill(r);
     });
