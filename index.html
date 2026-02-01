@@ -9,52 +9,64 @@
     :root{
       --bg:#ffffff;
 
-      --panel:#f3f4f6;     /* cinza claro (caixas) */
+      /* caixas */
+      --panel:#f3f4f6;     /* cinza claro */
+      --pill:#e5e7eb;      /* cinza um pouco mais escuro */
       --border:#e5e7eb;
 
       --text:#111827;
       --muted:#6b7280;
 
-      --pill:#e1e5ea;      /* cinza um pouco mais escuro (caixinha de valor) */
-      --pillText:#111827;
-
-      --accent:#374151;    /* slider fill */
-      --track:#e5e7eb;     /* slider track */
+      /* slider */
+      --accent:#374151;    /* preenchimento */
+      --track:#d1d5db;     /* trilho */
       --thumb:#111827;
 
-      --goodbg:#e9fff0;     /* verde bem claro (faturamento atual) */
-      --goodborder:#b7f7c7;
-      --goodtext:#0f6a2f;
+      /* destaque */
+      --good:#c9ff7a;      /* verde fluorescente claro (meta) */
 
       --radius:18px;
-      --shadow: 0 10px 26px rgba(17,24,39,.08);
+      --shadow: 0 10px 26px rgba(17,24,39,.06);
     }
 
     *{ box-sizing:border-box; }
+
     body{
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
       background: var(--bg);
       color: var(--text);
+      font-weight: 400;
     }
 
     .wrap{
       max-width: 980px;
-      margin: 24px auto;
-      padding: 0 16px 28px;
+      margin: 26px auto;
+      padding: 0 16px 30px;
     }
 
     header{
       text-align:center;
-      padding: 10px 0 16px;
+      padding: 14px 8px 18px;
       border-bottom: 1px solid var(--border);
       margin-bottom: 18px;
     }
-    header h1{
+
+    h1{
       margin:0;
-      font-size: 22px;
-      font-weight: 900;
+      font-size: 20px;
       letter-spacing: .2px;
+      font-weight: 500; /* sem “peso” */
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items:start;
+    }
+    @media (max-width: 900px){
+      .grid{ grid-template-columns: 1fr; }
     }
 
     .panel{
@@ -62,175 +74,149 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 16px;
+      padding: 18px;
     }
 
-    .panel + .panel{ margin-top: 14px; }
-
-    .panel h2{
-      margin: 0 0 12px;
+    .panel-title{
       font-size: 13px;
-      letter-spacing:.8px;
+      letter-spacing: .9px;
       text-transform: uppercase;
-      color: #111827;
+      color: var(--muted);
+      margin: 0 0 12px;
+      font-weight: 500;
     }
 
     .row{
-      padding: 12px 0;
+      padding: 14px 0;
       border-bottom: 1px solid rgba(17,24,39,.08);
     }
-    .row:last-child{ border-bottom: 0; padding-bottom: 4px; }
+    .row:last-child{ border-bottom:0; padding-bottom: 4px; }
 
     .label-line{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap: 12px;
+      gap: 10px;
       margin-bottom: 10px;
     }
 
     .label{
-      font-size: 16px;
-      font-weight: 900;
-      color: #111827;
+      font-size: 14px;
+      color: var(--text);
+      font-weight: 400; /* sem negrito */
     }
 
     .pill{
-      min-width: 110px;
+      min-width: 112px;
       text-align:right;
       padding: 8px 12px;
       border-radius: 14px;
       background: var(--pill);
       border: 1px solid rgba(17,24,39,.08);
-      color: var(--pillText);
-      font-weight: 900;
       font-variant-numeric: tabular-nums;
+      font-weight: 400; /* sem negrito */
+      color: var(--text);
     }
 
-    /* Slider */
+    /* slider fino */
     input[type="range"]{
       width: 100%;
-      height: 10px;
+      height: 6px; /* mais fino */
       border-radius: 999px;
       outline: none;
       background: linear-gradient(to right,
         var(--accent) 0%,
-        var(--accent) var(--fill, 50%),
-        var(--track) var(--fill, 50%),
+        var(--accent) var(--fill, 0%),
+        var(--track) var(--fill, 0%),
         var(--track) 100%);
       appearance:none;
       -webkit-appearance:none;
     }
-
     input[type="range"]::-webkit-slider-thumb{
       -webkit-appearance:none;
       appearance:none;
-      width: 20px;
-      height: 20px;
+      width: 16px;
+      height: 16px;
       border-radius: 999px;
       background: #fff;
-      border: 4px solid var(--thumb);
-      box-shadow: 0 10px 20px rgba(0,0,0,.14);
+      border: 3px solid var(--thumb);
+      box-shadow: 0 8px 14px rgba(0,0,0,.10);
       cursor: pointer;
     }
     input[type="range"]::-moz-range-thumb{
-      width: 20px;
-      height: 20px;
+      width: 16px;
+      height: 16px;
       border-radius: 999px;
       background: #fff;
-      border: 4px solid var(--thumb);
-      box-shadow: 0 10px 20px rgba(0,0,0,.14);
+      border: 3px solid var(--thumb);
+      box-shadow: 0 8px 14px rgba(0,0,0,.10);
       cursor: pointer;
     }
 
-    .sub{
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.35;
-    }
-
-    /* Result cards */
-    .resultCard{
-      background: #ffffff;
-      border: 1px solid rgba(17,24,39,.10);
-      border-radius: 16px;
-      padding: 14px;
+    .results{
       display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 12px;
-    }
-
-    .resultCard .k{
-      font-weight: 900;
-      font-size: 16px;
-      color:#111827;
-    }
-    .resultCard .v{
-      font-weight: 900;
-      font-size: 18px;
-      font-variant-numeric: tabular-nums;
-      color:#111827;
-    }
-
-    .resultCard.good{
-      background: var(--goodbg);
-      border-color: var(--goodborder);
-    }
-    .resultCard.good .k,
-    .resultCard.good .v{
-      color: var(--goodtext);
-    }
-
-    /* Funnel area */
-    .funnelWrap{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-      margin-top: 12px;
-    }
-
-    .miniList{
-      display:grid;
-      grid-template-columns: 1fr;
+      flex-direction:column;
       gap: 10px;
     }
 
-    .miniRow{
-      background:#ffffff;
+    .card{
+      background: #ffffff;
       border: 1px solid rgba(17,24,39,.10);
       border-radius: 16px;
-      padding: 12px 14px;
+      padding: 14px 14px;
       display:flex;
-      justify-content:space-between;
       align-items:center;
-      gap: 12px;
-    }
-    .miniRow .k{
-      font-weight: 900;
-      color:#111827;
-    }
-    .miniRow .v{
-      font-weight: 900;
-      font-variant-numeric: tabular-nums;
-      color:#111827;
-      font-size: 18px;
+      justify-content:space-between;
+      gap: 10px;
     }
 
-    /* SVG funnel card */
-    .funnelCard{
+    .k{
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 400;
+    }
+
+    .v{
+      color: var(--text);
+      font-size: 16px;
+      font-variant-numeric: tabular-nums;
+      font-weight: 400;
+    }
+
+    .card.good{
+      background: var(--good);
+      border-color: rgba(17,24,39,.10);
+    }
+    .card.good .k, .card.good .v{ color:#0b1f10; }
+
+    /* FUNIL (SVG) */
+    .funnel-wrap{
       background:#ffffff;
       border: 1px solid rgba(17,24,39,.10);
-      border-radius: 16px;
-      padding: 12px;
-      overflow:hidden;
+      border-radius: 18px;
+      padding: 14px;
     }
+
+    .funnel{
+      width: 100%;
+      max-width: 420px;
+      margin: 0 auto;
+      display:block;
+    }
+
+    .ftext{
+      fill:#111827;
+      font-weight: 400;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    }
+    .fmuted{ fill:#6b7280; }
 
     .hint{
-      margin-top: 6px;
-      color: var(--muted);
+      margin-top: 10px;
+      text-align:center;
       font-size: 12px;
+      color: var(--muted);
+      font-weight: 400;
     }
   </style>
 </head>
@@ -238,229 +224,192 @@
 <body>
   <div class="wrap">
     <header>
-      <h1>Calculadora de Ticket, Meta e Conversão</h1>
+      <h1>Método Marcelo Reinecken</h1>
     </header>
 
-    <!-- ENTRADAS / PARÂMETROS -->
-    <section class="panel">
-      <h2>Parâmetros</h2>
+    <div class="grid">
+      <!-- ESQUERDA: PARÂMETROS (barrinhas) -->
+      <section class="panel">
+        <div class="panel-title">Parâmetros</div>
 
-      <!-- 1) Ticket -->
-      <div class="row">
-        <div class="label-line">
-          <div class="label">Ticket (R$)</div>
-          <div class="pill" id="vTicket">R$ 450</div>
+        <!-- Ticket -->
+        <div class="row">
+          <div class="label-line">
+            <div class="label">Ticket ($)</div>
+            <div class="pill" id="vTicket">$ 450</div>
+          </div>
+          <input id="ticket" type="range" min="50" max="5000" step="50" value="450" />
         </div>
-        <input id="ticket" type="range" min="50" max="5000" step="50" value="450" />
-        <div class="sub">Sobe de 50 em 50 (de 50 até 5.000).</div>
-      </div>
 
-      <!-- 2) Vendas atuais -->
-      <div class="row">
-        <div class="label-line">
-          <div class="label">Vendas atuais</div>
-          <div class="pill" id="vVendasAtuais">10</div>
+        <!-- Vendas atuais -->
+        <div class="row">
+          <div class="label-line">
+            <div class="label">Vendas atuais</div>
+            <div class="pill" id="vVendasAtuais">10</div>
+          </div>
+          <input id="vendasAtuais" type="range" min="1" max="50" step="1" value="10" />
         </div>
-        <input id="vendasAtuais" type="range" min="1" max="50" step="1" value="10" />
-      </div>
 
-      <!-- 3) Faturamento (verde claro) -->
-      <div class="row">
-        <div class="resultCard good">
-          <div class="k">Faturamento</div>
-          <div class="v" id="rFatAtual">R$ 0</div>
+        <!-- Meta de vendas -->
+        <div class="row">
+          <div class="label-line">
+            <div class="label">Meta de vendas</div>
+            <div class="pill" id="vMeta">30</div>
+          </div>
+          <input id="meta" type="range" min="1" max="100" step="1" value="30" />
         </div>
-      </div>
 
-      <!-- 4) Meta de vendas -->
-      <div class="row">
-        <div class="label-line">
-          <div class="label">Meta de vendas</div>
-          <div class="pill" id="vMetaVendas">30</div>
+        <!-- Conversão -->
+        <div class="row">
+          <div class="label-line">
+            <div class="label">A cada 20 que chegam, quantos compram?</div>
+            <div class="pill" id="vConv">2</div>
+          </div>
+          <input id="conv" type="range" min="1" max="20" step="1" value="2" />
         </div>
-        <input id="metaVendas" type="range" min="1" max="100" step="1" value="30" />
-      </div>
 
-      <!-- 5) Faturamento na meta -->
-      <div class="row">
-        <div class="resultCard">
-          <div class="k">Faturamento na meta</div>
-          <div class="v" id="rFatMeta">R$ 0</div>
-        </div>
-      </div>
+        <div class="hint">Engajamento médio considerado automaticamente: 60%.</div>
+      </section>
 
-      <!-- 6) A cada 20 que chegam, quantos compram? (1 a 20) -->
-      <div class="row">
-        <div class="label-line">
-          <div class="label">A cada 20 que chegam, quantos compram?</div>
-          <div class="pill" id="vCompramPor20">2</div>
-        </div>
-        <input id="compramPor20" type="range" min="1" max="20" step="1" value="2" />
-        <div class="sub">Ex.: 2 = 2 compras a cada 20 pessoas que chegam.</div>
-        <div class="sub"><b>Engajamento médio considerado automaticamente: 60%.</b></div>
-      </div>
-    </section>
+      <!-- DIREITA: RESULTADOS + FUNIL -->
+      <aside class="panel">
+        <div class="panel-title">Resultado</div>
 
-    <!-- RESULTADO / FUNIL -->
-    <section class="panel">
-      <h2>Funil</h2>
-
-      <div class="funnelWrap">
-        <div class="miniList">
-          <div class="miniRow">
-            <div class="k">Quantas pessoas precisam chegar</div>
-            <div class="v" id="rChegam">0</div>
+        <div class="results">
+          <div class="card">
+            <div class="k">Faturamento (atual)</div>
+            <div class="v" id="rFatAtual">$ 0</div>
           </div>
 
-          <div class="miniRow">
-            <div class="k">Quantas pessoas engajam (60%)</div>
-            <div class="v" id="rEngajam">0</div>
+          <div class="card good">
+            <div class="k">Faturamento na meta</div>
+            <div class="v" id="rFatMeta">$ 0</div>
           </div>
 
-          <div class="miniRow">
-            <div class="k">Compram</div>
-            <div class="v" id="rCompram">0</div>
+          <div class="funnel-wrap">
+            <!-- Funil desenhado (Chegam / Engajam / Compram) -->
+            <svg class="funnel" viewBox="0 0 520 420" role="img" aria-label="Funil de conversão">
+              <!-- shapes -->
+              <defs>
+                <linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0" stop-color="#f3f4f6"/>
+                  <stop offset="1" stop-color="#e5e7eb"/>
+                </linearGradient>
+                <linearGradient id="g2" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0" stop-color="#f3f4f6"/>
+                  <stop offset="1" stop-color="#e5e7eb"/>
+                </linearGradient>
+              </defs>
+
+              <!-- Top trapezoid -->
+              <polygon points="70,50 450,50 390,175 130,175"
+                       fill="url(#g1)" stroke="#9ca3af" stroke-width="6" />
+
+              <!-- Middle trapezoid -->
+              <polygon points="130,175 390,175 350,285 170,285"
+                       fill="url(#g2)" stroke="#9ca3af" stroke-width="6" />
+
+              <!-- Neck -->
+              <polygon points="210,285 310,285 335,365 185,365"
+                       fill="#f3f4f6" stroke="#9ca3af" stroke-width="6" />
+
+              <!-- Text blocks -->
+              <text x="260" y="92" text-anchor="middle" class="ftext" font-size="44" id="fChegamN">0</text>
+              <text x="260" y="140" text-anchor="middle" class="ftext fmuted" font-size="44">Chegam</text>
+
+              <text x="260" y="225" text-anchor="middle" class="ftext" font-size="44" id="fEngajamN">0</text>
+              <text x="260" y="272" text-anchor="middle" class="ftext fmuted" font-size="44">Engajam</text>
+
+              <text x="260" y="338" text-anchor="middle" class="ftext" font-size="44" id="fCompramN">0</text>
+              <text x="260" y="402" text-anchor="middle" class="ftext fmuted" font-size="44">Compram</text>
+            </svg>
           </div>
         </div>
-
-        <!-- Funil visual -->
-        <div class="funnelCard">
-          <svg viewBox="0 0 700 520" width="100%" height="auto" aria-label="Funil">
-            <!-- fundo -->
-            <rect x="0" y="0" width="700" height="520" rx="18" fill="#ffffff"/>
-
-            <!-- funil externo -->
-            <path d="M120 60 L580 60 L450 380 L250 380 Z"
-                  fill="#f3f4f6" stroke="#111827" stroke-opacity=".25" stroke-width="6" />
-
-            <!-- divisões -->
-            <line x1="165" y1="175" x2="535" y2="175" stroke="#111827" stroke-opacity=".25" stroke-width="6" />
-            <line x1="210" y1="290" x2="490" y2="290" stroke="#111827" stroke-opacity=".25" stroke-width="6" />
-
-            <!-- bico -->
-            <path d="M315 380 L385 380 L405 465 L295 465 Z"
-                  fill="#f3f4f6" stroke="#111827" stroke-opacity=".25" stroke-width="6" />
-
-            <!-- textos -->
-            <text x="350" y="135" text-anchor="middle" font-size="44" font-weight="900" fill="#111827" opacity=".70">
-              Chegam
-            </text>
-            <text id="svgChegam" x="350" y="95" text-anchor="middle" font-size="44" font-weight="900" fill="#111827">
-              0
-            </text>
-
-            <text x="350" y="250" text-anchor="middle" font-size="44" font-weight="900" fill="#111827" opacity=".70">
-              Engajam
-            </text>
-            <text id="svgEngajam" x="350" y="210" text-anchor="middle" font-size="44" font-weight="900" fill="#111827">
-              0
-            </text>
-
-            <text x="350" y="505" text-anchor="middle" font-size="44" font-weight="900" fill="#7c2d12" opacity=".85">
-              Compram
-            </text>
-            <text id="svgCompram" x="350" y="420" text-anchor="middle" font-size="54" font-weight="900" fill="#7c2d12">
-              0
-            </text>
-          </svg>
-
-          <div class="hint">Ordem: Chegam → Engajam → Compram.</div>
-        </div>
-      </div>
-    </section>
+      </aside>
+    </div>
   </div>
 
   <script>
     const el = {
       ticket: document.getElementById('ticket'),
       vendasAtuais: document.getElementById('vendasAtuais'),
-      metaVendas: document.getElementById('metaVendas'),
-      compramPor20: document.getElementById('compramPor20'),
+      meta: document.getElementById('meta'),
+      conv: document.getElementById('conv'),
 
       vTicket: document.getElementById('vTicket'),
       vVendasAtuais: document.getElementById('vVendasAtuais'),
-      vMetaVendas: document.getElementById('vMetaVendas'),
-      vCompramPor20: document.getElementById('vCompramPor20'),
+      vMeta: document.getElementById('vMeta'),
+      vConv: document.getElementById('vConv'),
 
       rFatAtual: document.getElementById('rFatAtual'),
       rFatMeta: document.getElementById('rFatMeta'),
 
-      rChegam: document.getElementById('rChegam'),
-      rEngajam: document.getElementById('rEngajam'),
-      rCompram: document.getElementById('rCompram'),
-
-      svgChegam: document.getElementById('svgChegam'),
-      svgEngajam: document.getElementById('svgEngajam'),
-      svgCompram: document.getElementById('svgCompram')
+      fChegamN: document.getElementById('fChegamN'),
+      fEngajamN: document.getElementById('fEngajamN'),
+      fCompramN: document.getElementById('fCompramN'),
     };
 
-    const brl0 = new Intl.NumberFormat('pt-BR', { style:'currency', currency:'BRL', maximumFractionDigits: 0 });
+    function safeInt(v, fallback){
+      const n = Number(v);
+      return Number.isFinite(n) ? n : fallback;
+    }
 
-    function clampInt(n, min, max){
-      if (!Number.isFinite(n)) return min;
-      n = Math.round(n);
-      return Math.min(max, Math.max(min, n));
+    // moeda só com "$"
+    function money(n){
+      const x = Math.round(Number(n) || 0);
+      return '$ ' + x.toLocaleString('en-US'); // 12,345
     }
 
     function setFill(rangeEl){
-      const min = Number(rangeEl.min);
-      const max = Number(rangeEl.max);
-      const val = Number(rangeEl.value);
+      const min = safeInt(rangeEl.min, 0);
+      const max = safeInt(rangeEl.max, 1);
+      const val = safeInt(rangeEl.value, min);
       const pct = (max === min) ? 0 : ((val - min) / (max - min)) * 100;
       rangeEl.style.setProperty('--fill', pct.toFixed(2) + '%');
     }
 
-    function read(){
-      const ticket = clampInt(Number(el.ticket.value), 50, 5000);
-      const vendasAtuais = clampInt(Number(el.vendasAtuais.value), 1, 50);
-      const metaVendas = clampInt(Number(el.metaVendas.value), 1, 100);
-      const compramPor20 = clampInt(Number(el.compramPor20.value), 1, 20);
-
-      // garante que o DOM sempre fique com valores válidos (zero NaN)
-      el.ticket.value = ticket;
-      el.vendasAtuais.value = vendasAtuais;
-      el.metaVendas.value = metaVendas;
-      el.compramPor20.value = compramPor20;
-
-      return { ticket, vendasAtuais, metaVendas, compramPor20 };
-    }
-
     function calc(){
-      const { ticket, vendasAtuais, metaVendas, compramPor20 } = read();
+      const ticket = safeInt(el.ticket.value, 50);
+      const vendasAtuais = safeInt(el.vendasAtuais.value, 1);
+      const metaVendas = safeInt(el.meta.value, 1);
+      const compramCada20 = safeInt(el.conv.value, 1); // 1..20
 
-      // mostra valores das "pílulas"
-      el.vTicket.textContent = brl0.format(ticket);
+      // exibição dos "pills"
+      el.vTicket.textContent = money(ticket);
       el.vVendasAtuais.textContent = String(vendasAtuais);
-      el.vMetaVendas.textContent = String(metaVendas);
-      el.vCompramPor20.textContent = String(compramPor20);
+      el.vMeta.textContent = String(metaVendas);
+      el.vConv.textContent = String(compramCada20);
 
       // faturamentos
-      const fatAtual = ticket * vendasAtuais;
-      const fatMeta = ticket * metaVendas;
+      const fatAtual = vendasAtuais * ticket;
+      const fatMeta = metaVendas * ticket;
 
-      el.rFatAtual.textContent = brl0.format(fatAtual);
-      el.rFatMeta.textContent = brl0.format(fatMeta);
+      el.rFatAtual.textContent = money(fatAtual);
+      el.rFatMeta.textContent = money(fatMeta);
 
-      // funil
-      const conversao = compramPor20 / 20;   // ex: 2/20 = 0,10
-      const chegam = Math.ceil(metaVendas / conversao);   // pessoas necessárias para bater a meta
-      const engajam = Math.ceil(chegam * 0.60);           // 60% engajam
+      // conversão: a cada 20 chegam, compram X => taxa = X/20
+      const taxaCompra = compramCada20 / 20;
+
+      // pessoas que precisam chegar para bater metaVendas
+      // chega = meta / taxa (arredonda pra cima)
+      const chegam = Math.ceil(metaVendas / Math.max(taxaCompra, 1e-9));
+
+      // engajam = 60% dos que chegam
+      const engajam = Math.round(chegam * 0.60);
+
+      // compram = meta
       const compram = metaVendas;
 
-      el.rChegam.textContent = String(chegam);
-      el.rEngajam.textContent = String(engajam);
-      el.rCompram.textContent = String(compram);
-
-      // SVG
-      el.svgChegam.textContent = String(chegam);
-      el.svgEngajam.textContent = String(engajam);
-      el.svgCompram.textContent = String(compram);
+      // funil (números)
+      el.fChegamN.textContent = String(chegam);
+      el.fEngajamN.textContent = String(engajam);
+      el.fCompramN.textContent = String(compram);
 
       // fill sliders
-      [el.ticket, el.vendasAtuais, el.metaVendas, el.compramPor20].forEach(setFill);
+      [el.ticket, el.vendasAtuais, el.meta, el.conv].forEach(setFill);
     }
 
-    [el.ticket, el.vendasAtuais, el.metaVendas, el.compramPor20].forEach(r => {
+    [el.ticket, el.vendasAtuais, el.meta, el.conv].forEach(r => {
       r.addEventListener('input', calc);
       setFill(r);
     });
