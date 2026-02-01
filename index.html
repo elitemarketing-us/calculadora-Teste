@@ -203,6 +203,27 @@
       display:block;
     }
 
+    /* ===== Caixa de mensagem abaixo do funil ===== */
+    .insight-box{
+      background:#ffffff;
+      border:1px solid #e5e7eb;
+      border-radius:14px;
+      padding:16px 18px;
+      box-shadow: var(--shadow);
+      margin-top:16px;
+    }
+    .insight-box p{
+      margin:0;
+      font-size:15px;
+      line-height:1.5;
+      color:#1f2937;
+      font-weight:400;
+    }
+    .insight-box strong{
+      font-weight:500;
+      color:#111827;
+    }
+
     /* ===== LAYOUT 2 COLUNAS (computador / landscape) ===== */
     .layout{
       display:block;
@@ -330,52 +351,59 @@
                       font-weight="400">Chegam</text>
 
                 <!-- gap (bem menor, 2 linhas) -->
+                <line x1="92" y1="154" x2="268" y2="154" stroke="#111" stroke-width="1" />
                 <line x1="92" y1="156" x2="268" y2="156" stroke="#111" stroke-width="1" />
-                <line x1="92" y1="159" x2="268" y2="159" stroke="#111" stroke-width="1" />
 
                 <!-- 2) Engajam -->
                 <polygon
-                  points="90,165 270,165 255,245 105,245"
+                  points="90,160 270,160 255,240 105,240"
                   fill="#e9e9e9"
                   stroke="#111"
                   stroke-width="1"
                   stroke-linejoin="round"
                 />
-                <text id="nEngajam" x="180" y="207"
+                <text id="nEngajam" x="180" y="202"
                       text-anchor="middle"
                       font-size="28"
                       fill="#111827"
                       font-weight="400">0</text>
-                <text x="180" y="229"
+                <text x="180" y="224"
                       text-anchor="middle"
                       font-size="18"
                       fill="#8b8b8b"
                       font-weight="400">Engajam</text>
 
                 <!-- gap (bem menor, 2 linhas) -->
-                <line x1="110" y1="255" x2="250" y2="255" stroke="#111" stroke-width="1" />
-                <line x1="110" y1="258" x2="250" y2="258" stroke="#111" stroke-width="1" />
+                <line x1="110" y1="246" x2="250" y2="246" stroke="#111" stroke-width="1" />
+                <line x1="110" y1="248" x2="250" y2="248" stroke="#111" stroke-width="1" />
 
                 <!-- 3) Compram -->
                 <polygon
-                  points="120,264 240,264 230,322 130,322"
+                  points="120,252 240,252 230,310 130,310"
                   fill="#e9e9e9"
                   stroke="#111"
                   stroke-width="1"
                   stroke-linejoin="round"
                 />
-                <text id="nCompram" x="180" y="297"
+                <text id="nCompram" x="180" y="285"
                       text-anchor="middle"
                       font-size="30"
                       fill="#b24a4a"
                       font-weight="400">0</text>
-                <text x="180" y="318"
+                <text x="180" y="306"
                       text-anchor="middle"
                       font-size="18"
                       fill="#8b8b8b"
                       font-weight="400">Compram</text>
               </svg>
             </div>
+          </div>
+
+          <!-- Caixa com a frase (abaixo do funil) -->
+          <div class="insight-box">
+            <p id="funnelInsight">
+              Isso significa que, trazendo cerca de <strong>0</strong> pessoas para o topo do funil, conseguimos sustentar <strong>0</strong> vendas de forma previsível.
+            </p>
           </div>
         </section>
       </div>
@@ -399,7 +427,9 @@
 
       nChegam: document.getElementById('nChegam'),
       nEngajam: document.getElementById('nEngajam'),
-      nCompram: document.getElementById('nCompram')
+      nCompram: document.getElementById('nCompram'),
+
+      funnelInsight: document.getElementById('funnelInsight')
     };
 
     const ENG = 0.60; // engajamento fixo 60%
@@ -461,6 +491,12 @@
       el.nChegam.textContent = String(chegam);
       el.nEngajam.textContent = String(engajam);
       el.nCompram.textContent = String(compram);
+
+      // Atualiza mensagem
+      if (el.funnelInsight){
+        el.funnelInsight.innerHTML =
+          `Isso significa que, trazendo cerca de <strong>${chegam}</strong> pessoas para o topo do funil, conseguimos sustentar <strong>${compram}</strong> vendas de forma previsível.`;
+      }
 
       // fill sliders
       [el.ticket, el.atual, el.meta, el.compramPor20].forEach(setFill);
