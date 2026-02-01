@@ -22,8 +22,8 @@
       --fill:#111827;
       --thumb:#111827;
 
-      --goalbg:#bfffe0;         /* verde fluorescente claro (meta) */
-      --goalborder:#88f4c6;
+      --goalbg:#fff4bf;         /* amarelo bem claro (meta) */
+      --goalborder:#ffe18a;
 
       --shadow:0 10px 26px rgba(17,24,39,.08);
       --radius:18px;
@@ -35,6 +35,7 @@
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
       background:var(--bg);
       color:var(--text);
+      font-weight: 300; /* fonte mais fina no geral */
     }
 
     .wrap{
@@ -46,7 +47,7 @@
     .title{
       text-align:center;
       font-size: 20px;
-      font-weight: 500;         /* sem “peso” forte */
+      font-weight: 300;
       letter-spacing: .2px;
       margin: 6px 0 18px;
     }
@@ -65,7 +66,7 @@
       font-size: 12px;
       letter-spacing: .9px;
       text-transform: uppercase;
-      font-weight: 500;
+      font-weight: 300;
       color: var(--muted);
     }
 
@@ -85,7 +86,7 @@
 
     .label{
       font-size: 14px;
-      font-weight: 400;  /* minimalista (sem negrito) */
+      font-weight: 300;
       color: var(--text);
     }
 
@@ -97,14 +98,14 @@
       border: 1px solid var(--pill-border);
       border-radius: 999px;
       font-variant-numeric: tabular-nums;
-      font-weight: 400;
+      font-weight: 300;
       color: var(--text);
     }
 
     /* Slider (mais fino) */
     input[type="range"]{
       width:100%;
-      height: 6px;               /* mais fino */
+      height: 6px;
       border-radius: 999px;
       outline:none;
       appearance:none;
@@ -138,7 +139,7 @@
 
     /* Cards de resultado */
     .card{
-      background:#ffffff; /* faturamento: fundo branco */
+      background:#ffffff;
       border: 1px solid rgba(17,24,39,.10);
       border-radius: 16px;
       padding: 14px 14px;
@@ -150,18 +151,18 @@
 
     .card .k{
       font-size: 14px;
-      font-weight: 400;
+      font-weight: 300;
       color: var(--text);
     }
     .card .v{
       font-variant-numeric: tabular-nums;
       font-size: 16px;
-      font-weight: 400;
+      font-weight: 300;
       color: var(--text);
     }
 
     .card.goal{
-      background: var(--goalbg);   /* faturamento na meta: verde */
+      background: var(--goalbg);
       border-color: var(--goalborder);
     }
 
@@ -180,7 +181,7 @@
       margin-top: 8px;
       font-size: 12px;
       color: var(--muted);
-      font-weight: 400;
+      font-weight: 300;
     }
   </style>
 </head>
@@ -230,7 +231,7 @@
       </div>
     </section>
 
-    <!-- 4) FATURAMENTO NA META (verde) -->
+    <!-- 4) FATURAMENTO NA META (amarelo bem claro) -->
     <section class="panel">
       <div class="card goal">
         <div class="k">Faturamento na meta</div>
@@ -251,65 +252,64 @@
       <div class="foot-muted">Engajamento médio considerado automaticamente: 60%.</div>
     </section>
 
-    <!-- 6) FUNIL (apenas o funil, sem tabela) -->
+    <!-- 6) FUNIL (apenas o funil) -->
     <section class="panel">
       <div class="funnelWrap">
-        <!-- SVG simétrico e “reto”, estética do print (linhas pretas finas, texto menor, fundo claro) -->
+        <!-- Funil “normal”, simétrico, sem torto; fontes do funil no tamanho das outras fontes (14px) -->
         <svg id="funnelSvg" width="360" height="430" viewBox="0 0 360 430" role="img" aria-label="Funil">
-          <!-- fundo -->
           <rect x="0" y="0" width="360" height="430" fill="#ffffff"/>
 
-          <!-- traços “pretos finos” -->
-          <!-- Parte superior (trapézio grande) -->
+          <!-- Parte superior: trapézio (funil normal) -->
           <polygon
-            points="70,70 290,70 240,260 120,260"
+            points="70,70 290,70 240,255 120,255"
             fill="#f1f1f1"
             stroke="#000000"
-            stroke-width="1.4"
+            stroke-width="1.2"
             stroke-linejoin="round"/>
 
-          <!-- Divisórias internas -->
-          <line x1="86" y1="150" x2="274" y2="150" stroke="#000000" stroke-width="1.2" opacity=".35"/>
-          <line x1="102" y1="215" x2="258" y2="215" stroke="#000000" stroke-width="1.2" opacity=".35"/>
+          <!-- Divisórias (cinza bem sutil) -->
+          <line x1="86" y1="145" x2="274" y2="145" stroke="#000000" stroke-width="1" opacity=".18"/>
+          <line x1="102" y1="210" x2="258" y2="210" stroke="#000000" stroke-width="1" opacity=".18"/>
 
-          <!-- Gargalo -->
+          <!-- Gargalo: trapézio invertido (saída) -->
           <polygon
-            points="140,260 220,260 240,400 120,400"
+            points="140,255 220,255 238,390 122,390"
             fill="#f7f7f7"
             stroke="#000000"
-            stroke-width="1.4"
+            stroke-width="1.2"
             stroke-linejoin="round"/>
 
-          <!-- Textos (menores, cinza) -->
-          <text id="nChegam" x="180" y="44" text-anchor="middle"
-                font-size="34" fill="#000000"
+          <!-- Números (14px, como labels da calculadora) -->
+          <text id="nChegam" x="180" y="48" text-anchor="middle"
+                font-size="14" fill="#111827"
                 font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial"
-                style="font-weight:400;">0</text>
+                style="font-weight:300;">0</text>
 
-          <text x="180" y="118" text-anchor="middle"
-                font-size="34" fill="#7a7a7a"
+          <text id="nEngajam" x="180" y="186" text-anchor="middle"
+                font-size="14" fill="#111827"
                 font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial"
-                style="font-weight:400;">Chegam</text>
+                style="font-weight:300;">0</text>
 
-          <text id="nEngajam" x="180" y="205" text-anchor="middle"
-                font-size="38" fill="#000000"
+          <text id="nCompram" x="180" y="332" text-anchor="middle"
+                font-size="14" fill="#b24b4b"
                 font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial"
-                style="font-weight:400;">0</text>
+                style="font-weight:300;">0</text>
 
-          <text x="180" y="252" text-anchor="middle"
-                font-size="34" fill="#7a7a7a"
+          <!-- Rótulos (14px, cinza) -->
+          <text x="180" y="122" text-anchor="middle"
+                font-size="14" fill="#8a8a8a"
                 font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial"
-                style="font-weight:400;">Engajam</text>
+                style="font-weight:300;">Chegam</text>
 
-          <text id="nCompram" x="180" y="352" text-anchor="middle"
-                font-size="54" fill="#b24b4b"  /* vermelho */
+          <text x="180" y="250" text-anchor="middle"
+                font-size="14" fill="#8a8a8a"
                 font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial"
-                style="font-weight:400;">0</text>
+                style="font-weight:300;">Engajam</text>
 
           <text x="180" y="418" text-anchor="middle"
-                font-size="40" fill="#8a8a8a"
+                font-size="14" fill="#8a8a8a"
                 font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial"
-                style="font-weight:400;">Compram</text>
+                style="font-weight:300;">Compram</text>
         </svg>
       </div>
     </section>
@@ -365,42 +365,33 @@
     function calc(){
       const { ticket, atual, meta, buyPer20 } = read();
 
-      // valores na UI (pills)
       el.vTicket.textContent = fmtMoney(ticket);
       el.vAtual.textContent  = String(atual);
       el.vMeta.textContent   = String(meta);
       el.vConv.textContent   = String(buyPer20);
 
-      // faturamentos
       const faturamentoAtual = ticket * atual;
       const faturamentoMeta  = ticket * meta;
 
       el.rFat.textContent     = fmtMoney(faturamentoAtual);
       el.rMetaFat.textContent = fmtMoney(faturamentoMeta);
 
-      // conversão: a cada 20 que chegam, buyPer20 compram
+      // conversão: buyPer20 / 20
       const conv = buyPer20 / 20;
 
-      // Precisamos garantir consistência no funil:
-      // Chegam >= Engajam >= Compram
-      // Engajam = 60% dos que chegam
-      // Compram = meta (objetivo)
-      //
-      // Então:
-      // 1) Chegam precisa ser suficiente pela conversão (meta/conv)
-      // 2) Chegam precisa ser suficiente para que 60% engajem e ainda cubra a meta (meta/0.60)
+      // Consistência do funil:
+      // Chegam >= Engajam (60%) >= Compram (meta)
       const needByConv   = (conv > 0) ? Math.ceil(meta / conv) : 0;
       const needByEngage = Math.ceil(meta / ENGAGE_RATE);
 
-      const chegam = Math.max(needByConv, needByEngage);
+      const chegam  = Math.max(needByConv, needByEngage);
       const engajam = Math.ceil(chegam * ENGAGE_RATE);
       const compram = meta;
 
-      el.nChegam.textContent = String(chegam);
+      el.nChegam.textContent  = String(chegam);
       el.nEngajam.textContent = String(engajam);
       el.nCompram.textContent = String(compram);
 
-      // fills
       [el.ticket, el.atual, el.meta, el.conv].forEach(setFill);
     }
 
